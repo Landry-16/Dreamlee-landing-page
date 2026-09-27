@@ -1,0 +1,460 @@
+---
+import { t, typo } from "@/content";
+import { place } from "@/lib/place";
+import { countWords, formatNumber } from "@/lib/words";
+
+const v = t.versions;
+const e = t.export;
+const initial = v.items.findIndex((item) => item.name);
+const tilts = [-5, -2.5, 1, 3.5];
+const stampTilts = [-8, 6, -4, 3];
+---
+
+<section class="versions section surface" id="versions" aria-labelledby="versions-title">
+  <div class="stage">
+    <div class="canvas" style="--h:1000">
+      <div class="versions__text at" style={place(120, 100, 540)}>
+        <h2 class="section-title" id="versions-title">
+          {typo(v.title)}
+        </h2>
+        <p class="section-lead versions__lead">{typo(v.lead)}</p>
+      </div>
+
+      <div class="versions__demo at" style={place(120, 390, 560)} data-versions>
+        <div class="versions__stack">
+          {v.items.map((item, index) => (
+            <article
+              class="versions__sheet paper"
+              style={`--tilt:${tilts[index] ?? 0}deg;--depth:${index}`}
+              data-version={index}
+              data-front={index === initial ? "" : undefined}
+              aria-hidden={index === initial ? undefined : "true"}
+            >
+              <p class="versions__tab">{typo(item.date)}</p>
+              <h3 class="versions__name">{typo(item.name ?? item.kind)}</h3>
+              <p class="versions__meta">
+                {item.name ? `${typo(item.kind)} · ` : ""}
+                {formatNumber(countWords(item.text))} {v.wordsSuffix}
+              </p>
+              <p class="versions__body">{typo(item.text)}</p>
+              <span class="versions__restore" aria-hidden="true">
+                {typo(v.restore)}
+              </span>
+            </article>
+          ))}
+        </div>
+        <div class="versions__scrubber">
+          <label class="visually-hidden" for="versions-range">
+            {typo(v.scrubberLabel)}
+          </label>
+          <input
+            id="versions-range"
+            type="range"
+            min="0"
+            max={v.items.length - 1}
+            step="1"
+            value={initial}
+            data-versions-range
+            aria-valuetext={typo(
+              `${v.items[initial]?.date ?? ""}, ${v.items[initial]?.name ?? v.items[initial]?.kind ?? ""}`,
+            )}
+            data-texts={JSON.stringify(
+              v.items.map((item) => typo(`${item.date}, ${item.name ?? item.kind}`)),
+            )}
+          />
+          <ol class="versions__dates" aria-hidden="true">
+            {v.items.map((item) => (
+              <li>{typo(item.date)}</li>
+            ))}
+          </ol>
+          <p class="versions__note hand" aria-hidden="true">
+            {typo(v.scrubberNote)}
+          </p>
+        </div>
+      </div>
+
+      <div class="versions__export-text at" style={place(800, 100, 520)}>
+        <h2 class="section-title" id="export-title">
+          {typo(e.title)}
+        </h2>
+        <p class="section-lead versions__lead">{typo(e.lead)}</p>
+      </div>
+
+      <div class="versions__book at" style={place(840, 400, 380, 2)} data-export>
+        <span class="versions__pages paper" aria-hidden="true"></span>
+        <span class="versions__pages paper" aria-hidden="true"></span>
+        <div class="versions__cover paper">
+          <svg class="versions__clip" viewBox="0 0 110 70" aria-hidden="true">
+            <path
+              d="M20 30 L55 6 L90 30"
+              fill="none"
+              stroke="#8e8e8e"
+              stroke-width="4"
+              stroke-linejoin="round"
+            ></path>
+            <rect x="5" y="28" width="100" height="36" rx="4" fill="#2b2b2b"></rect>
+            <rect x="5" y="28" width="100" height="10" rx="4" fill="#474747"></rect>
+          </svg>
+          <p class="versions__book-title">{typo(e.bookTitle)}</p>
+          <p class="versions__book-genre">{typo(e.bookGenre)}</p>
+          <p class="versions__book-author">{typo(e.bookAuthor)}</p>
+          <p class="versions__stamp typewriter" aria-hidden="true" data-stamp>
+            {e.formats[0]?.label}
+          </p>
+          <p class="versions__book-stats typewriter">{typo(e.bookStats)}</p>
+        </div>
+      </div>
+
+      <div class="versions__formats at" style={place(1262, 430, 170)}>
+        <ul role="list" aria-label={typo(e.formatsLabel)}>
+          {e.formats.map((format, index) => (
+            <li style={`--tilt:${stampTilts[index] ?? 0}deg`}>
+              <button
+                type="button"
+                class:list={["versions__format", "typewriter", `versions__format--${format.id}`]}
+                aria-pressed={index === 0 ? "true" : "false"}
+                aria-describedby="export-hint"
+                data-format={format.label}
+                data-hint={typo(format.hint)}
+              >
+                {format.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <p class="versions__hint" id="export-hint" aria-live="polite" data-format-hint>
+          {typo(e.formats[0]?.hint ?? "")}
+        </p>
+        <p class="versions__format-note hand" aria-hidden="true">
+          {typo(e.note)}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .versions {
+    --base: var(--kraft);
+    --grain-strength: 0.35;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 40%, rgb(230 214 184 / 0.8), transparent 70%),
+      var(--kraft);
+  }
+
+  .versions__lead {
+    margin-top: 20px;
+    color: var(--text-soft);
+  }
+
+  /* Stack of versions */
+  .versions__stack {
+    position: relative;
+    height: 380px;
+  }
+
+  .versions__sheet {
+    --sheet: #f3ecdd;
+    position: absolute;
+    left: calc(var(--depth) * 14px);
+    top: calc((3 - var(--depth)) * 26px);
+    width: 480px;
+    min-height: 300px;
+    padding: 24px 28px;
+    border-radius: 3px;
+    rotate: var(--tilt);
+    box-shadow: 0 6px 14px rgb(60 40 20 / 0.25);
+    transition:
+      translate 420ms var(--ease-out),
+      rotate 420ms var(--ease-out),
+      background-color 200ms;
+  }
+
+  .versions__sheet[data-front] {
+    --sheet: var(--paper-white);
+    z-index: 5;
+    rotate: calc(var(--tilt) * 0.3);
+    translate: 0 -8px;
+    box-shadow: 0 18px 34px rgb(60 40 20 / 0.3);
+  }
+
+  .versions__tab {
+    position: absolute;
+    top: -26px;
+    left: 20px;
+    padding: 6px 12px;
+    border-radius: 4px 4px 0 0;
+    background: #e7dcc6;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .versions__sheet[data-front] .versions__tab {
+    background: var(--brick);
+    color: var(--paper-white);
+  }
+
+  .versions__name {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .versions__meta {
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #7a6e62;
+  }
+
+  .versions__body {
+    margin-top: 16px;
+    font-family: var(--font-book);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-soft);
+  }
+
+  .versions__restore {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 8px 14px;
+    border-radius: 4px;
+    background: var(--text);
+    color: var(--paper-white);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .versions__sheet:not([data-front]) .versions__restore {
+    visibility: hidden;
+  }
+
+  /* Timeline */
+  .versions__scrubber {
+    margin: 64px 20px 0;
+  }
+
+  .versions__scrubber input {
+    width: 100%;
+    accent-color: var(--brick);
+  }
+
+  .versions__dates {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    list-style: none;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  .versions__note {
+    margin-top: 10px;
+    font-size: 26px;
+    color: var(--text-soft);
+  }
+
+  /* Bound manuscript */
+  .versions__book {
+    aspect-ratio: 380 / 500;
+  }
+
+  .versions__pages,
+  .versions__cover {
+    position: absolute;
+    inset: 0;
+  }
+
+  .versions__pages {
+    --sheet: #e9e0ce;
+    translate: 12px 14px;
+  }
+
+  .versions__pages + .versions__pages {
+    --sheet: #f1eadb;
+    translate: 6px 7px;
+  }
+
+  .versions__cover {
+    --sheet: var(--paper-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 34% 24px 24px;
+    text-align: center;
+    color: var(--text);
+  }
+
+  .versions__clip {
+    position: absolute;
+    top: -40px;
+    width: 110px;
+  }
+
+  .versions__book-title {
+    font-family: var(--font-display);
+    font-size: 34px;
+    line-height: 1.15;
+  }
+
+  .versions__book-genre {
+    margin-top: 6px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--text-muted);
+  }
+
+  .versions__book-author {
+    margin-top: 40px;
+    font-family: var(--font-book);
+    font-size: 16px;
+  }
+
+  .versions__stamp {
+    margin-top: 28px;
+    padding: 8px 16px;
+    border: 3px solid currentColor;
+    border-radius: 6px;
+    color: var(--brick);
+    font-size: 22px;
+    opacity: 0.88;
+    rotate: -8deg;
+  }
+
+  .versions__book-stats {
+    margin-top: auto;
+    font-size: 13px;
+    color: #7a6e62;
+  }
+
+  /* Formats */
+  .versions__formats ul {
+    display: grid;
+    justify-items: start;
+    gap: 22px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .versions__formats li {
+    rotate: var(--tilt);
+  }
+
+  .versions__format {
+    padding: 8px 16px;
+    border: 3px solid currentColor;
+    border-radius: 6px;
+    background: rgb(255 253 248 / 0.25);
+    font-size: 22px;
+    opacity: 0.8;
+    transition:
+      opacity 140ms,
+      transform 140ms var(--ease-out),
+      background-color 140ms;
+  }
+
+  .versions__format:hover {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+
+  .versions__format[aria-pressed="true"] {
+    opacity: 1;
+    background: rgb(255 253 248 / 0.7);
+  }
+
+  .versions__format--pdf {
+    color: var(--brick);
+  }
+
+  .versions__format--docx {
+    color: var(--sea);
+  }
+
+  .versions__format--markdown {
+    color: var(--forest);
+  }
+
+  .versions__format--txt {
+    color: var(--text-muted);
+  }
+
+  .versions__hint {
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--text-soft);
+  }
+
+  .versions__format-note {
+    margin-top: 10px;
+    font-size: 28px;
+    color: var(--text-soft);
+    rotate: 4deg;
+  }
+
+  @media (min-width: 1200px) {
+    .versions__stack {
+      height: calc(380 * var(--u));
+    }
+
+    .versions__sheet {
+      width: calc(480 * var(--u));
+    }
+  }
+
+  @media (max-width: 1199.98px) {
+    .versions__stack {
+      height: 380px;
+    }
+
+    .versions__sheet {
+      width: calc(100% - 36px);
+      left: calc(var(--depth) * 6px);
+      padding: 20px;
+    }
+
+    .versions__body {
+      font-size: 14px;
+    }
+
+    .versions__scrubber {
+      margin: 32px 0 0;
+    }
+
+    .versions__export-text {
+      margin-top: 32px;
+    }
+
+    .versions__book {
+      width: min(76%, 300px);
+      align-self: center;
+      margin-top: 30px;
+    }
+
+    .versions__cover {
+      padding-top: 26%;
+    }
+
+    .versions__book-title {
+      font-size: 24px;
+    }
+
+    .versions__book-author {
+      margin-top: 24px;
+    }
+
+    .versions__stamp {
+      margin-top: 16px;
+      font-size: 18px;
+    }
+
+    .versions__formats ul {
+      grid-template-columns: repeat(2, auto);
+      justify-content: start;
+      gap: 16px 20px;
+    }
+  }
+</style>
