@@ -14,8 +14,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "prepare": "husky",
-    "preview:e2e": "astro preview --port 4321"
+    "prepare": "husky"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.3.0",
@@ -52,5 +51,8 @@
       "esbuild",
       "sharp"
     ]
+  },
+  "engines": {
+    "node": ">=22"
   }
 }
