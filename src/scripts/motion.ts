@@ -80,6 +80,20 @@ function tidyUp(): void {
   );
 }
 
+/** The bars of the statistics grow from the axis, day after day. */
+function growBars(): void {
+  const bars = document.querySelectorAll("[data-bar]");
+  if (!bars.length) return;
+  gsap.from(bars, {
+    scaleY: 0,
+    transformOrigin: "50% 100%",
+    duration: 0.6,
+    ease: "power2.out",
+    stagger: 0.025,
+    scrollTrigger: { trigger: bars[0]?.closest("figure") ?? bars[0], start: "top 75%", once: true },
+  });
+}
+
 /**
  * Starts the scroll choreography, unless the visitor asked for less motion:
  * then everything is simply shown in its final, tidy state.
@@ -88,6 +102,7 @@ export function initMotion(reducedMotion: boolean): void {
   if (reducedMotion) return;
   initSmoothScroll();
   heroIntro();
+  growBars();
   const media = gsap.matchMedia();
   media.add(WIDE, () => {
     tidyUp();

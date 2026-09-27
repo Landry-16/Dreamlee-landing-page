@@ -1,0 +1,461 @@
+---
+import { t, typo } from "@/content";
+import { place } from "@/lib/place";
+
+const p = t.progress;
+const chart = p.chart;
+
+/* Timer dial */
+const R = 150;
+const ringRadius = R - 30;
+const ticks = Array.from({ length: 60 }, (_, i) => {
+  const angle = (i / 60) * Math.PI * 2 - Math.PI / 2;
+  const inner = i % 5 === 0 ? R - 16 : R - 9;
+  return {
+    x1: 160 + Math.cos(angle) * inner,
+    y1: 160 + Math.sin(angle) * inner,
+    x2: 160 + Math.cos(angle) * (R - 3),
+    y2: 160 + Math.sin(angle) * (R - 3),
+    major: i % 5 === 0,
+  };
+});
+const circumference = 2 * Math.PI * ringRadius;
+
+/* Bar chart, in the sheet's own units */
+const W = 640;
+const H = 290;
+const plotRight = W - 110;
+const maxValue = 900;
+const barWidth = 12;
+const gap = (plotRight - barWidth * chart.days.length) / (chart.days.length - 1);
+const y = (value: number) => H - (value / maxValue) * (H - 20);
+const bars = chart.days.map((value, index) => ({
+  x: index * (barWidth + gap),
+  value,
+  height: H - y(value),
+  reached: value >= chart.goal,
+}));
+const goalY = y(chart.goal);
+---
+
+<section
+  class="progress section surface"
+  id="progression"
+  aria-labelledby="progress-title"
+  data-progress
+>
+  <div class="stage">
+    <div class="canvas" style="--h:940">
+      <div class="progress__text at" style={place(120, 110, 460)}>
+        <h2 class="section-title" id="progress-title">
+          {typo(p.title)}
+        </h2>
+        <p class="section-lead progress__lead">{typo(p.lead)}</p>
+      </div>
+
+      <div class="progress__timer at" style={place(140, 440, 320)} data-timer>
+        <svg viewBox="0 0 320 320" aria-hidden="true">
+          <circle cx="160" cy="160" r={R} fill="#f6f0e4"></circle>
+          <circle
+            cx="160"
+            cy="160"
+            r={ringRadius}
+            fill="none"
+            stroke="#e4dac6"
+            stroke-width="10"
+          ></circle>
+          <circle
+            class="progress__arc"
+            cx="160"
+            cy="160"
+            r={ringRadius}
+            fill="none"
+            stroke="#a4502b"
+            stroke-width="10"
+            stroke-linecap="round"
+            stroke-dasharray={circumference}
+            stroke-dashoffset={circumference * (1 - 0.62)}
+            transform="rotate(-90 160 160)"
+            data-timer-arc
+          ></circle>
+          {ticks.map((tick) => (
+            <line
+              x1={tick.x1}
+              y1={tick.y1}
+              x2={tick.x2}
+              y2={tick.y2}
+              stroke="#3b2f25"
+              stroke-width={tick.major ? 2 : 1}
+              stroke-linecap="round"
+            />
+          ))}
+        </svg>
+        <div class="progress__timer-text">
+          <p class="progress__timer-label">{typo(p.timer.label)}</p>
+          <p class="progress__timer-time">
+            <time data-timer-time>18:42</time>
+          </p>
+          <p class="progress__timer-label">{typo(p.timer.remaining)}</p>
+          <p class="progress__timer-words typewriter">{typo(p.timer.words)}</p>
+        </div>
+      </div>
+      <p class="progress__note hand at" style={place(170, 790, 260, 3)} aria-hidden="true">
+        {typo(p.timerNote)}
+      </p>
+
+      <figure class="progress__sheet at paper" style={place(640, 100, 720, -1.2)}>
+        <div class="progress__sheet-head">
+          <div>
+            <h3 class="progress__chart-title">{typo(chart.title)}</h3>
+            <p class="progress__period">{typo(chart.period)}</p>
+          </div>
+          <span class="progress__example">{typo(chart.example)}</span>
+        </div>
+        <dl class="progress__stats">
+          {chart.stats.map((stat) => (
+            <div>
+              <dt>{typo(stat.label)}</dt>
+              <dd>{typo(stat.value)}</dd>
+            </div>
+          ))}
+        </dl>
+        <svg
+          class="progress__chart"
+          viewBox={`0 0 ${W} ${H + 30}`}
+          role="img"
+          aria-label={typo(chart.summary)}
+        >
+          {bars.map((bar) =>
+            bar.value === 0 ? (
+              <line x1={bar.x} y1={H} x2={bar.x + barWidth} y2={H} class="progress__zero" />
+            ) : (
+              <rect
+                x={bar.x}
+                y={H - bar.height}
+                width={barWidth}
+                height={bar.height}
+                rx="1.5"
+                class:list={["progress__bar", bar.reached && "progress__bar--goal"]}
+                data-bar
+              />
+            ),
+          )}
+          <line x1="-10" y1={goalY} x2={plotRight + 12} y2={goalY} class="progress__goal"></line>
+          <line x1="-10" y1={H} x2={plotRight + 12} y2={H} class="progress__axis"></line>
+          <text class="progress__goal-label" x={plotRight + 26} y={goalY - 4} aria-hidden="true">
+            {chart.goalLabel.split("\n").map((line, index) => (
+              <tspan x={plotRight + 26} dy={index === 0 ? 0 : 24}>
+                {typo(line)}
+              </tspan>
+            ))}
+          </text>
+          <text
+            class="progress__today"
+            x={(bars.at(-1)?.x ?? 0) + barWidth}
+            y={H + 26}
+            text-anchor="end"
+            aria-hidden="true"
+          >
+            {typo(chart.today)}
+          </text>
+        </svg>
+
+        <figcaption class="progress__footnote">{typo(chart.footnote)}</figcaption>
+      </figure>
+
+      <div class="progress__session at paper" style={place(560, 640, 360, 2)}>
+        <p class="progress__session-title">{typo(p.session.title)}</p>
+        <dl class="progress__session-stats">
+          <div>
+            <dt>{typo(p.session.duration)}</dt>
+            <dd>{typo(p.session.durationValue)}</dd>
+          </div>
+          <div>
+            <dt>{typo(p.session.words)}</dt>
+            <dd>{typo(p.session.wordsValue)}</dd>
+          </div>
+        </dl>
+        <p class="progress__reached">{typo(p.session.goal)}</p>
+        <p class="progress__thanks">{typo(p.session.thanks)}</p>
+      </div>
+      <p class="progress__note hand at" style={place(960, 720, 280, -3)} aria-hidden="true">
+        {typo(p.sessionNote)}
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .progress {
+    --base: var(--blotter);
+    --grain-strength: 0.4;
+    background:
+      radial-gradient(ellipse 60% 60% at 55% 40%, rgb(58 76 120 / 0.6), transparent 70%),
+      var(--blotter);
+    color: var(--on-dark);
+  }
+
+  .progress__lead {
+    margin-top: 24px;
+    color: #d5dbea;
+  }
+
+  .progress__timer {
+    aspect-ratio: 1;
+    filter: drop-shadow(0 16px 24px rgb(0 0 0 / 0.5));
+  }
+
+  .progress__timer svg {
+    width: 100%;
+  }
+
+  .progress__arc {
+    transition: stroke-dashoffset 1s linear;
+  }
+
+  .progress__timer-text {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    color: var(--text);
+  }
+
+  .progress__timer-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #7a6e62;
+  }
+
+  .progress__timer-time {
+    font-family: var(--font-display);
+    font-size: 52px;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .progress__timer-words {
+    margin-top: 10px;
+    font-size: 15px;
+    color: var(--brick);
+  }
+
+  .progress__note {
+    font-size: 30px;
+    color: var(--chalk);
+  }
+
+  /* Graph paper */
+  .progress__sheet {
+    --sheet: #f8f4ea;
+    margin: 0;
+    padding: 34px 40px 24px;
+    color: var(--ink);
+    background-image:
+      linear-gradient(rgb(159 180 214 / 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(159 180 214 / 0.5) 1px, transparent 1px),
+      linear-gradient(rgb(159 180 214 / 0.25) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(159 180 214 / 0.25) 1px, transparent 1px);
+    background-size:
+      80px 80px,
+      80px 80px,
+      16px 16px,
+      16px 16px;
+    box-shadow: 0 24px 48px rgb(0 0 0 / 0.5);
+  }
+
+  .progress__sheet-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .progress__chart-title {
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .progress__period {
+    font-size: 13px;
+    font-weight: 500;
+    color: #5b6480;
+  }
+
+  .progress__example {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #e3e8f3;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .progress__stats {
+    display: flex;
+    gap: 64px;
+    margin-top: 22px;
+  }
+
+  .progress__stats dt {
+    font-size: 13px;
+    font-weight: 500;
+    color: #5b6480;
+  }
+
+  .progress__stats dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 28px;
+  }
+
+  .progress__chart {
+    width: 100%;
+    margin-top: 24px;
+    overflow: visible;
+  }
+
+  .progress__bar {
+    fill: #5b6f9e;
+  }
+
+  .progress__bar--goal {
+    fill: var(--ink);
+  }
+
+  .progress__zero {
+    stroke: rgb(31 43 77 / 0.35);
+    stroke-width: 2;
+  }
+
+  .progress__goal {
+    stroke: var(--brick);
+    stroke-width: 2;
+    stroke-dasharray: 7 6;
+  }
+
+  .progress__axis {
+    stroke: var(--ink);
+    stroke-width: 1.5;
+  }
+
+  .progress__goal-label,
+  .progress__today {
+    font-family: var(--font-hand);
+    font-size: 26px;
+    fill: var(--brick);
+  }
+
+  .progress__today {
+    fill: var(--ink);
+    font-size: 24px;
+  }
+
+  .progress__footnote {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #5b6480;
+  }
+
+  /* Session summary */
+  .progress__session {
+    --sheet: var(--paper-white);
+    z-index: 2;
+    display: grid;
+    gap: 14px;
+    padding: 22px 26px 24px;
+    border-radius: 8px;
+    color: var(--text);
+    box-shadow: 0 24px 40px rgb(0 0 0 / 0.55);
+  }
+
+  .progress__session-title {
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 600;
+  }
+
+  .progress__session-stats {
+    display: flex;
+    gap: 32px;
+  }
+
+  .progress__session-stats dt {
+    font-size: 13px;
+    font-weight: 500;
+    color: #7a6e62;
+  }
+
+  .progress__session-stats dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 30px;
+  }
+
+  .progress__reached {
+    justify-self: start;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #e7efe3;
+    color: var(--forest);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .progress__thanks {
+    font-family: var(--font-book);
+    font-size: 15px;
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 1200px) {
+    .progress__sheet {
+      padding: calc(34 * var(--u)) calc(40 * var(--u)) calc(24 * var(--u));
+    }
+
+    .progress__note {
+      font-size: calc(30 * var(--u));
+    }
+  }
+
+  @media (max-width: 1199.98px) {
+    .progress__timer {
+      width: min(80%, 280px);
+      align-self: center;
+    }
+
+    .progress__timer-time {
+      font-size: 44px;
+    }
+
+    .progress__sheet {
+      padding: 22px 18px 16px;
+    }
+
+    .progress__stats {
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .progress__stats dd {
+      font-size: 20px;
+    }
+
+    .progress__goal-label {
+      font-size: 34px;
+    }
+
+    .progress__today {
+      display: none;
+    }
+
+    .progress__note {
+      font-size: 24px;
+    }
+
+    .progress__session {
+      width: min(100%, 360px);
+      margin-top: -40px;
+      align-self: flex-end;
+    }
+  }
+</style>
