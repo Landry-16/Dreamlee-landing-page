@@ -1,0 +1,229 @@
+---
+import { t, typo } from "@/content";
+import { place } from "@/lib/place";
+import { countWords, formatNumber } from "@/lib/words";
+
+const w = t.write;
+/** Words of the scene before the paragraph being written. */
+const baseWords = 1248 - countWords(w.typed);
+---
+
+<section class="write section surface" id="ecrire" aria-labelledby="write-title">
+  <div class="stage">
+    <div class="canvas" style="--h:900">
+      <div class="write__text at" style={place(110, 190, 470)}>
+        <h2 class="section-title" id="write-title">
+          {typo(w.title)}
+        </h2>
+        <p class="section-lead write__lead">{typo(w.lead)}</p>
+        <ul class="write__points">
+          {w.points.map((point) => (
+            <li>{typo(point)}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div
+        class="write__sheet at paper"
+        style={place(700, 130, 620, 1)}
+        data-typing
+        data-base-words={baseWords}
+        data-text={typo(w.typed)}
+      >
+        <p class="write__chapter">{typo(w.chapterLabel)}</p>
+        <h3 class="write__chapter-title">{typo(w.chapterTitle)}</h3>
+        {w.before.map((paragraph) => (
+          <p class="write__before">{typo(paragraph)}</p>
+        ))}
+        <p
+          class="write__current"
+          contenteditable="plaintext-only"
+          role="textbox"
+          aria-multiline="true"
+          aria-label={typo(w.editorLabel)}
+          spellcheck="false"
+          data-typing-field
+        >
+          {typo(w.typed)}
+        </p>
+        <p class="write__status" aria-live="polite">
+          <span>{typo(w.status)}</span>
+          <span aria-hidden="true">·</span>
+          <span>
+            <span data-typing-count>{formatNumber(1248)}</span> {w.wordsSuffix}
+          </span>
+          <span aria-hidden="true">·</span>
+          <span class="write__saved" data-typing-saved>
+            {typo(w.saved)}
+          </span>
+        </p>
+      </div>
+
+      <p class="write__note hand at only-wide" style={place(1110, 800, 280, 4)} aria-hidden="true">
+        {typo(w.tryIt)}
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .write {
+    --base: var(--lamp);
+    --grain-strength: 0.4;
+    background:
+      radial-gradient(ellipse 45% 60% at 70% 45%, rgb(255 222 160 / 0.2), transparent 70%),
+      radial-gradient(ellipse 70% 80% at 65% 40%, rgb(62 94 76 / 0.55), transparent 75%),
+      var(--lamp);
+  }
+
+  .write__text {
+    color: var(--on-dark);
+  }
+
+  .write__lead {
+    margin-top: 24px;
+    color: #c9d6cc;
+  }
+
+  .write__points {
+    margin-top: 28px;
+    padding: 0;
+    list-style: none;
+    color: var(--on-dark-soft);
+  }
+
+  .write__points li {
+    position: relative;
+    padding: 9px 0 9px 22px;
+    border-top: 1px solid rgb(246 240 228 / 0.12);
+    font-size: 16px;
+  }
+
+  .write__points li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 19px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--postit-orange);
+  }
+
+  .write__sheet {
+    --sheet: var(--paper-warm);
+    padding: 64px 72px 84px;
+    min-height: 600px;
+    box-shadow:
+      0 30px 60px rgb(0 0 0 / 0.5),
+      0 2px 4px rgb(0 0 0 / 0.3);
+  }
+
+  .write__chapter {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brick);
+  }
+
+  .write__chapter-title {
+    margin: 6px 0 28px;
+    font-size: 34px;
+  }
+
+  .write__before,
+  .write__current {
+    font-family: var(--font-book);
+    font-size: 19px;
+    line-height: 1.75;
+    color: var(--text);
+  }
+
+  .write__before {
+    margin-bottom: 18px;
+    opacity: 0.3;
+    transition: opacity 400ms;
+  }
+
+  .write__current {
+    min-height: 3.5em;
+    outline: none;
+    caret-color: var(--brick);
+    border-radius: 2px;
+  }
+
+  .write__current:focus-visible {
+    box-shadow: 0 0 0 6px rgb(164 80 43 / 0.12);
+  }
+
+  /* The fake caret while the text types itself. */
+  :global(.write__caret) {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    margin-left: 1px;
+    vertical-align: -0.2em;
+    background: var(--brick);
+    animation: blink 1s steps(1) infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .write__status {
+    position: absolute;
+    left: 72px;
+    right: 72px;
+    bottom: 32px;
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-faint);
+  }
+
+  .write__saved {
+    transition: color 200ms;
+  }
+
+  .write__saved[data-saving] {
+    color: var(--brick);
+  }
+
+  .write__note {
+    font-size: 30px;
+    color: var(--chalk);
+  }
+
+  @media (max-width: 1199.98px) {
+    .write__sheet {
+      padding: 32px 26px 70px;
+      min-height: 0;
+    }
+
+    .write__chapter-title {
+      font-size: 28px;
+      margin-bottom: 18px;
+    }
+
+    .write__before:first-of-type {
+      display: none;
+    }
+
+    .write__before,
+    .write__current {
+      font-size: 16px;
+    }
+
+    .write__status {
+      left: 26px;
+      right: 26px;
+      bottom: 24px;
+      font-size: 12px;
+    }
+  }
+</style>
