@@ -1,0 +1,236 @@
+---
+import { t, typo } from "@/content";
+import { place } from "@/lib/place";
+
+const f = t.faq;
+const open = 0;
+---
+
+<section class="faq section surface" id="questions" aria-labelledby="faq-title">
+  <div class="stage">
+    <div class="canvas" style="--h:960">
+      <h2 class="section-title faq__title at" style={place(120, 100, 520)} id="faq-title">
+        {typo(f.title)}
+      </h2>
+
+      <div class="faq__box at" style={place(120, 290, 560)} data-faq>
+        <ul class="faq__list">
+          {f.items.map((item, index) => (
+            <li class="faq__item">
+              <h3 class="faq__question">
+                <button
+                  type="button"
+                  class="typewriter"
+                  id={`faq-q-${index}`}
+                  aria-expanded={index === open ? "true" : "false"}
+                  aria-controls={`faq-a-${index}`}
+                  data-faq-toggle
+                >
+                  <span>{typo(item.question)}</span>
+                  <span class="faq__sign" aria-hidden="true" />
+                </button>
+              </h3>
+              <div
+                class="faq__answer"
+                id={`faq-a-${index}`}
+                role="region"
+                aria-labelledby={`faq-q-${index}`}
+                hidden={index !== open}
+              >
+                <p class="faq__answer-question typewriter" aria-hidden="true">
+                  {typo(item.question)}
+                </p>
+                <p class="faq__answer-text">{typo(item.answer)}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div class="faq__front" aria-hidden="true">
+          <span class="typewriter">{typo(f.boxLabel)}</span>
+        </div>
+      </div>
+
+      <svg
+        class="faq__arrow at only-wide"
+        style={place(676, 296, 70)}
+        viewBox="0 0 70 50"
+        aria-hidden="true"
+      >
+        <path
+          d="M66 6 C 44 4, 24 14, 8 32 M8 32 L9 20 M8 32 L20 30"
+          fill="none"
+          stroke="#3b2f25"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></path>
+      </svg>
+      <p class="faq__note hand at only-wide" style={place(770, 480, 460, 2)} aria-hidden="true">
+        {typo(f.note)}
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    --base: var(--file);
+    --grain-strength: 0.3;
+  }
+
+  .faq__title {
+    color: var(--text);
+  }
+
+  .faq__list {
+    padding: 0;
+    list-style: none;
+  }
+
+  .faq__question button {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    min-height: 64px;
+    padding: 18px 24px 26px;
+    border: 0;
+    border-radius: 4px 4px 0 0;
+    background:
+      linear-gradient(rgb(214 107 107 / 0.75), rgb(214 107 107 / 0.75)) 0 52px / 100% 1.5px
+        no-repeat,
+      #f8f3e8;
+    color: var(--text);
+    font-size: 17px;
+    text-align: left;
+    box-shadow: 0 -3px 8px rgb(60 40 20 / 0.16);
+    transition:
+      translate 200ms var(--ease-out),
+      background-color 200ms;
+  }
+
+  .faq__question button:hover {
+    translate: 0 -4px;
+  }
+
+  .faq__item + .faq__item {
+    margin-top: -12px;
+  }
+
+  .faq__sign::before {
+    content: "+";
+    font-family: var(--font-ui);
+    font-size: 22px;
+    line-height: 1;
+    color: var(--brick);
+  }
+
+  .faq__question button[aria-expanded="true"] .faq__sign::before {
+    content: "–";
+  }
+
+  .faq__answer {
+    --sheet: var(--paper-white);
+    background:
+      repeating-linear-gradient(to bottom, transparent 0 29px, rgb(159 180 214 / 0.55) 29px 30px) 0
+        70px / 100% 100% no-repeat,
+      linear-gradient(rgb(214 107 107 / 0.8), rgb(214 107 107 / 0.8)) 0 68px / 100% 1.5px no-repeat,
+      var(--paper-white);
+    color: var(--text-soft);
+  }
+
+  .faq__answer-question {
+    font-size: 22px;
+    color: var(--text);
+  }
+
+  .faq__answer-text {
+    margin-top: 32px;
+    font-family: var(--font-book);
+    font-size: 19px;
+    line-height: 30px;
+  }
+
+  .faq__front {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    height: 120px;
+    margin: -16px -20px 0;
+    border-radius: 8px;
+    background: linear-gradient(#9a7453, #6b4a33);
+    box-shadow: 0 14px 24px rgb(60 35 15 / 0.45);
+  }
+
+  .faq__front span {
+    padding: 10px 40px;
+    border: 3px solid #b8a07a;
+    border-radius: 3px;
+    background: var(--paper);
+    font-size: 16px;
+    color: var(--text);
+  }
+
+  .faq__note {
+    font-size: 28px;
+    color: var(--text-soft);
+  }
+
+  /* Wide: the chosen card leaves the file and lies open next to it. */
+  @media (min-width: 1200px) {
+    .faq__question button[aria-expanded="true"] {
+      background: transparent;
+      color: rgb(36 31 26 / 0.45);
+      outline: 1.5px dashed rgb(138 109 72 / 0.6);
+      outline-offset: -2px;
+      box-shadow: none;
+    }
+
+    .faq__answer {
+      position: absolute;
+      left: calc(620 * var(--u));
+      top: calc(-120 * var(--u));
+      width: calc(580 * var(--u));
+      min-height: 270px;
+      padding: 26px 34px 34px;
+      rotate: 1.5deg;
+      box-shadow: 0 18px 34px rgb(60 40 20 / 0.3);
+    }
+
+    .faq__answer-question {
+      font-size: max(18px, calc(22 * var(--u)));
+    }
+  }
+
+  @media (max-width: 1199.98px) {
+    .faq__box {
+      margin-top: 8px;
+    }
+
+    .faq__question button {
+      font-size: 15px;
+      padding: 16px 18px 24px;
+    }
+
+    .faq__answer {
+      padding: 4px 18px 22px;
+      background: var(--paper-white);
+    }
+
+    .faq__answer-question {
+      display: none;
+    }
+
+    .faq__answer-text {
+      margin-top: 0;
+      font-size: 16px;
+      line-height: 26px;
+    }
+
+    .faq__front {
+      height: 90px;
+      margin: -20px -10px 0;
+    }
+  }
+</style>
