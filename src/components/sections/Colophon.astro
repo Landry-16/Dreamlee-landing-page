@@ -1,0 +1,176 @@
+---
+import { t, typo } from "@/content";
+import { place } from "@/lib/place";
+
+const c = t.colophon;
+---
+
+<section class="colophon section surface" id="colophon" aria-labelledby="colophon-title">
+  <div class="stage">
+    <div class="canvas" style="--h:1000">
+      <article class="colophon__page at paper" style={place(400, 70, 640, 0.8)}>
+        <svg class="colophon__fleuron" viewBox="0 0 120 24" aria-hidden="true">
+          <path d="M0 12 H44 M76 12 H120" stroke="#9e4d29" stroke-width="1"></path>
+          <path d="M60 3 C 66 9, 66 15, 60 21 C 54 15, 54 9, 60 3Z" fill="#9e4d29"></path>
+        </svg>
+        <p class="colophon__label">{typo(c.label)}</p>
+        <h2 class="colophon__title" id="colophon-title">
+          {typo(c.title)}
+        </h2>
+        <ul class="colophon__items">
+          {c.items.map((item) => (
+            <li>
+              <strong>{typo(item.lead)}</strong> {typo(item.text)}
+            </li>
+          ))}
+        </ul>
+        <svg class="colophon__fleuron" viewBox="0 0 120 24" aria-hidden="true">
+          <path d="M0 12 H44 M76 12 H120" stroke="#9e4d29" stroke-width="1"></path>
+          <path d="M60 3 C 66 9, 66 15, 60 21 C 54 15, 54 9, 60 3Z" fill="#9e4d29"></path>
+        </svg>
+        <p class="colophon__signature typewriter">{typo(c.signature)}</p>
+        <span class="colophon__seal" aria-hidden="true">
+          D
+        </span>
+      </article>
+
+      <svg
+        class="colophon__pen at only-wide"
+        style={place(1080, 640, 420, -62)}
+        viewBox="0 0 420 40"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="pen-body" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#3a3a3a"></stop>
+            <stop offset="0.45" stop-color="#151515"></stop>
+            <stop offset="1" stop-color="#050505"></stop>
+          </linearGradient>
+          <linearGradient id="pen-gold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f1d9a0"></stop>
+            <stop offset="0.5" stop-color="#c19a4b"></stop>
+            <stop offset="1" stop-color="#8c6a2b"></stop>
+          </linearGradient>
+        </defs>
+        <path d="M0 20 L40 12 L40 28Z" fill="url(#pen-gold)"></path>
+        <path d="M4 20 L36 20" stroke="#5a4520" stroke-width="1"></path>
+        <rect x="40" y="10" width="70" height="20" rx="4" fill="url(#pen-body)"></rect>
+        <rect x="108" y="8" width="10" height="24" fill="url(#pen-gold)"></rect>
+        <rect x="118" y="7" width="290" height="26" rx="12" fill="url(#pen-body)"></rect>
+        <rect x="170" y="4" width="150" height="5" rx="2" fill="url(#pen-gold)"></rect>
+        <rect x="200" y="7" width="6" height="26" fill="url(#pen-gold)"></rect>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  .colophon {
+    --base: var(--leather-deep);
+    --glow: rgb(53 89 74 / 0.55);
+    --grain-strength: 0.4;
+  }
+
+  .colophon__page {
+    --sheet: var(--paper-page);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 70px 80px 64px;
+    text-align: center;
+    color: var(--text-soft);
+    box-shadow: 0 30px 60px rgb(0 0 0 / 0.55);
+  }
+
+  .colophon__fleuron {
+    width: 120px;
+  }
+
+  .colophon__label {
+    margin-top: 12px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 16px;
+    color: #7a6e62;
+  }
+
+  .colophon__title {
+    margin-top: 8px;
+    font-size: 38px;
+    color: var(--text);
+  }
+
+  .colophon__items {
+    display: grid;
+    gap: 26px;
+    margin: 40px 0 34px;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-book);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  .colophon__items strong {
+    color: var(--text);
+  }
+
+  .colophon__signature {
+    margin-top: 22px;
+    font-size: 14px;
+    color: #7a6e62;
+  }
+
+  .colophon__seal {
+    position: absolute;
+    right: 54px;
+    bottom: 54px;
+    display: grid;
+    place-items: center;
+    width: 92px;
+    height: 92px;
+    border-radius: 47% 53% 50% 50% / 52% 46% 54% 48%;
+    background: radial-gradient(circle at 50% 50%, #9e4d29 0 58%, #6b2a17 59% 62%, #8e3b22 63%);
+    color: #f4d9c8;
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 0.4);
+    rotate: -8deg;
+  }
+
+  .colophon__pen {
+    filter: drop-shadow(8px 14px 12px rgb(0 0 0 / 0.5));
+  }
+
+  @media (min-width: 1200px) {
+    .colophon__page {
+      padding: calc(70 * var(--u)) calc(80 * var(--u)) calc(64 * var(--u));
+    }
+  }
+
+  @media (max-width: 1199.98px) {
+    .colophon__page {
+      padding: 44px 26px 110px;
+    }
+
+    .colophon__title {
+      font-size: 28px;
+    }
+
+    .colophon__items {
+      gap: 20px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+
+    .colophon__seal {
+      right: 50%;
+      bottom: 24px;
+      width: 70px;
+      height: 70px;
+      font-size: 26px;
+      translate: 50% 0;
+    }
+  }
+</style>
