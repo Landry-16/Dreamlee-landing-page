@@ -1,0 +1,74 @@
+/*
+ * Design tokens of the « bureau éparpillé » landing page.
+ * Each section is one surface of an author's desk.
+ */
+:root {
+  /* Desk surfaces */
+  --leather: #2e4a3b;
+  --leather-glow: #4f7a61;
+  --leather-deep: #1f3328;
+  --leather-night: #16241c;
+  --lamp: #18291f;
+  --cork: #c9ae86;
+  --walnut: #4a3326;
+  --walnut-glow: #8a5e3e;
+  --blotter: #223052;
+  --blotter-glow: #3a4c78;
+  --kraft: #d6c3a1;
+  --tidy: #efe7d6;
+  --file: #e8ddc8;
+  --footer: #1a2b21;
+
+  /* Paper */
+  --paper: #f6f0e4;
+  --paper-warm: #fbf7ee;
+  --paper-white: #fffdf8;
+  --paper-map: #efe4cb;
+  --paper-page: #f7f1e3;
+  --postit-yellow: #f3d86b;
+  --postit-orange: #f4a77a;
+
+  /* Ink */
+  --ink: #1f2b4d;
+  --text: #241f1a;
+  --text-soft: #3b2f25;
+  --text-muted: #5b4e42;
+  --text-faint: #6b6255;
+  --on-dark: #f6f0e4;
+  --on-dark-soft: #dce5dc;
+  --chalk: #f3e3b8;
+
+  /* Accents */
+  --brick: #a4502b;
+  --brick-strong: #8e3b22;
+  --brick-shadow: #6b2a17;
+  --thread: #b3312b;
+  --sea: #2f5a72;
+  --forest: #2e5a3e;
+
+  /* Entry categories, as in the app's diagram */
+  --cat-character: #4e6a95;
+  --cat-place: #4e7a5b;
+  --cat-object: #a7822e;
+  --cat-group: #3f7a7a;
+  --cat-event: #7a4a78;
+
+  /* Type */
+  --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
+  --font-ui: "Public Sans Variable", "Segoe UI", system-ui, sans-serif;
+  --font-book: "Literata Variable", Georgia, serif;
+  --font-type: "Special Elite", "Courier New", monospace;
+  --font-hand: "Reenie Beanie", "Segoe Print", cursive;
+
+  /* Depth */
+  --shadow-sheet: 0 14px 30px rgb(10 8 5 / 0.38), 0 2px 4px rgb(10 8 5 / 0.18);
+  --shadow-card: 0 8px 18px rgb(10 8 5 / 0.28), 0 1px 2px rgb(10 8 5 / 0.2);
+  --shadow-low: 0 3px 8px rgb(10 8 5 / 0.25);
+
+  /* Grain, drawn once and reused by every paper and surface */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --focus: 0 0 0 3px var(--paper-white), 0 0 0 5px var(--brick);
+}
