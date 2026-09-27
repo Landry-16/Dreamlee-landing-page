@@ -1,0 +1,441 @@
+---
+import { Image } from "astro:assets";
+import map from "@/assets/map-continent.png";
+import { t, typo } from "@/content";
+import { place } from "@/lib/place";
+
+const h = t.hero;
+---
+
+<section class="hero section surface" id="top" aria-labelledby="hero-title" data-hero>
+  <div class="stage">
+    <div class="canvas" style="--h:920">
+      <svg
+        class="hero__thread at only-wide"
+        style={place(300, 92, 780)}
+        viewBox="0 0 780 120"
+        aria-hidden="true"
+        data-thread
+      >
+        <path d="M40 90 C 200 10, 520 0, 760 60" fill="none"></path>
+      </svg>
+
+      <div class="hero__ring at only-wide" style={place(1020, 640, 250)} aria-hidden="true"></div>
+
+      <div class="hero__card at paper" style={place(37, 98, 312, -5)} aria-hidden="true" data-drop>
+        <svg class="hero__clip" viewBox="0 0 24 60" aria-hidden="true">
+          <path
+            d="M8 52V12a6 6 0 0 1 12 0v36a9 9 0 0 1-18 0V16"
+            fill="none"
+            stroke="#9aa0a6"
+            stroke-width="2.4"
+            stroke-linecap="round"
+          ></path>
+        </svg>
+        <p class="hero__card-name typewriter">{h.card.name.toUpperCase()}</p>
+        {h.card.lines.map((line) => (
+          <p class="typewriter">{typo(line)}</p>
+        ))}
+        <p class="hero__card-note hand">{typo(h.card.note)}</p>
+      </div>
+
+      <div class="hero__map at paper" style={place(1045, 112, 400, 6)} aria-hidden="true" data-drop>
+        <Image src={map} alt="" width={540} height={360} loading="eager" />
+        <span class="hero__map-pin pin"></span>
+        <span class="hero__map-note hand">{typo(h.mapNote)}</span>
+      </div>
+
+      <div class="hero__sheet at paper" style={place(400, 176, 750, 1.4)} data-sheet>
+        <p class="hero__kicker">{typo(h.kicker)}</p>
+        <h1 class="hero__title" id="hero-title">
+          {typo(h.title)}
+        </h1>
+        <p class="hero__lead">{typo(h.lead)}</p>
+        <div class="hero__actions">
+          <a class="button" href="#beta">
+            {typo(h.cta)}
+          </a>
+          <a class="hero__hint hand" href="#rangement">
+            {typo(h.scrollHint)}
+          </a>
+        </div>
+      </div>
+
+      <div class="hero__pages at" style={place(-10, 605, 460, -8)} aria-hidden="true" data-drop>
+        <div class="hero__page hero__page--under paper"></div>
+        <div class="hero__page paper">
+          <p class="hero__page-number">— {h.pageNumber} —</p>
+          <p>
+            {typo(h.page)}
+            <span class="hero__struck">
+              <s>{typo(h.pageStruck)}</s>
+              <span class="hero__correction hand">{typo(h.pageCorrection)}</span>
+            </span>
+            {typo(h.pageEnd)}
+          </p>
+        </div>
+      </div>
+
+      <p
+        class="hero__postit hero__postit--yellow at hand"
+        style={place(91, 471, 210, 4)}
+        aria-hidden="true"
+        data-drop
+      >
+        {typo(h.postitYellow)}
+      </p>
+
+      <p
+        class="hero__postit hero__postit--orange at hand"
+        style={place(1153, 492, 200, -5)}
+        aria-hidden="true"
+        data-drop
+      >
+        {typo(h.postitOrange)}
+      </p>
+
+      <svg
+        class="hero__pencil at"
+        style={place(760, 790, 300, -22)}
+        viewBox="0 0 300 22"
+        aria-hidden="true"
+        data-drop
+      >
+        <path d="M0 11 L30 2 L30 20Z" fill="#e7c9a0"></path>
+        <path d="M0 11 L10 8 L10 14Z" fill="#333"></path>
+        <rect x="30" y="2" width="230" height="18" fill="#e3b23c"></rect>
+        <rect x="30" y="2" width="230" height="6" fill="#f0c75e"></rect>
+        <rect x="260" y="2" width="16" height="18" fill="#b8b8b8"></rect>
+        <rect x="276" y="2" width="22" height="18" rx="4" fill="#e78a8a"></rect>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    --base: var(--leather);
+    --glow: rgb(111 160 128 / 0.5);
+    --glow-at: 45% 38%;
+    --grain-strength: 0.35;
+    background:
+      radial-gradient(ellipse 60% 55% at 45% 38%, rgb(111 160 128 / 0.42), transparent 70%),
+      radial-gradient(ellipse at 50% 50%, transparent 55%, rgb(8 14 10 / 0.55)), var(--leather);
+  }
+
+  .hero__thread path {
+    stroke: var(--thread);
+    stroke-width: 2;
+  }
+
+  .hero__ring {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 10px solid rgb(90 55 30 / 0.28);
+    box-shadow: inset 0 0 0 3px rgb(90 55 30 / 0.12);
+    filter: blur(0.6px);
+  }
+
+  /* Index card */
+  .hero__card {
+    --sheet: var(--paper-warm);
+    padding: 16px 22px 18px;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 25px,
+      rgb(159 180 214 / 0.55) 25px 26px
+    );
+    background-position: 0 44px;
+    border-top: 2px solid transparent;
+    font-size: 14px;
+    line-height: 26px;
+    color: var(--text-soft);
+  }
+
+  .hero__card::before {
+    content: "";
+    position: absolute;
+    inset: 42px 0 auto;
+    height: 2px;
+    background: rgb(214 107 107 / 0.7);
+  }
+
+  .hero__card-name {
+    font-size: 17px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .hero__card-note {
+    margin-top: 6px;
+    text-align: right;
+    color: var(--thread);
+    font-size: 26px;
+  }
+
+  .hero__clip {
+    position: absolute;
+    top: -22px;
+    right: 44px;
+    width: 18px;
+  }
+
+  /* Map */
+  .hero__map {
+    --sheet: var(--paper-map);
+    padding: 14px;
+  }
+
+  .hero__map img {
+    width: 100%;
+    height: auto;
+  }
+
+  .hero__map-pin {
+    left: 52%;
+    top: 58%;
+  }
+
+  .hero__map-note {
+    position: absolute;
+    left: 57%;
+    top: 60%;
+    color: var(--thread);
+    font-size: 28px;
+    rotate: -6deg;
+  }
+
+  /* Post-its */
+  .hero__postit {
+    aspect-ratio: 1 / 0.92;
+    padding: 20px 18px;
+    font-size: 34px;
+    line-height: 1.05;
+    color: var(--ink);
+    box-shadow: var(--shadow-card);
+  }
+
+  .hero__postit--yellow {
+    background: var(--postit-yellow);
+  }
+
+  .hero__postit--orange {
+    background: var(--postit-orange);
+  }
+
+  /* Title sheet */
+  .hero__sheet {
+    padding: 66px 70px 58px;
+    z-index: 2;
+  }
+
+  .hero__kicker {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-faint);
+  }
+
+  .hero__title {
+    margin-top: 18px;
+    font-size: 78px;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .hero__lead {
+    margin-top: 28px;
+    max-width: 33em;
+    font-family: var(--font-book);
+    font-style: italic;
+    font-size: 21px;
+    line-height: 1.5;
+    color: var(--text-soft);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 28px;
+    margin-top: 36px;
+  }
+
+  .hero__hint {
+    font-size: 28px;
+    color: var(--ink);
+    text-decoration: none;
+    rotate: -1.5deg;
+  }
+
+  .hero__hint:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+
+  /* Manuscript pages */
+  .hero__pages {
+    aspect-ratio: 460 / 330;
+  }
+
+  .hero__page {
+    --sheet: var(--paper-page);
+    position: absolute;
+    inset: 0;
+    padding: 30px 44px;
+    font-family: var(--font-book);
+    font-size: 17px;
+    line-height: 40px;
+    color: var(--text-soft);
+  }
+
+  .hero__page--under {
+    translate: 14px -10px;
+    rotate: 3deg;
+  }
+
+  .hero__page-number {
+    text-align: center;
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--text-faint);
+  }
+
+  .hero__struck {
+    position: relative;
+  }
+
+  .hero__struck s {
+    text-decoration-color: var(--thread);
+    text-decoration-thickness: 2px;
+  }
+
+  .hero__correction {
+    position: absolute;
+    left: 0;
+    top: -22px;
+    white-space: nowrap;
+    color: var(--thread);
+    font-size: 26px;
+    rotate: -4deg;
+  }
+
+  .hero__pencil {
+    filter: drop-shadow(0 6px 6px rgb(0 0 0 / 0.4));
+  }
+
+  @media (min-width: 1200px) {
+    .hero__title {
+      font-size: calc(78 * var(--u));
+    }
+
+    .hero__sheet {
+      padding: calc(66 * var(--u)) calc(70 * var(--u)) calc(58 * var(--u));
+    }
+
+    .hero__lead {
+      font-size: max(17px, calc(21 * var(--u)));
+    }
+  }
+
+  /* Narrow screens: the sheet in the middle, a few objects peeking out. */
+  @media (max-width: 1199.98px) {
+    .hero .canvas {
+      position: relative;
+      padding-top: 230px;
+      padding-bottom: 170px;
+    }
+
+    .hero__card {
+      position: absolute;
+      top: 84px;
+      left: -30px;
+      width: 230px;
+      padding: 12px 16px 14px 40px;
+      font-size: 11px;
+      line-height: 20px;
+    }
+
+    .hero__card p:nth-child(n + 4),
+    .hero__card-note {
+      display: none;
+    }
+
+    .hero__card-name {
+      font-size: 15px;
+    }
+
+    .hero__card::before {
+      top: 36px;
+    }
+
+    .hero__hint {
+      font-size: 24px;
+    }
+
+    .hero__clip {
+      display: none;
+    }
+
+    .hero__map,
+    .hero__postit--yellow {
+      display: none;
+    }
+
+    .hero__postit--orange {
+      position: absolute;
+      top: 96px;
+      right: -8px;
+      width: 136px;
+      padding: 14px;
+      font-size: 24px;
+    }
+
+    .hero__sheet {
+      padding: 28px 24px 30px;
+    }
+
+    .hero__title {
+      font-size: clamp(40px, 10vw, 60px);
+    }
+
+    .hero__lead {
+      font-size: 17px;
+    }
+
+    .hero__actions .button {
+      width: 100%;
+    }
+
+    .hero__pages {
+      position: absolute;
+      left: -20px;
+      bottom: -40px;
+      width: 240px;
+    }
+
+    .hero__page {
+      padding: 20px 26px;
+      font-size: 12px;
+      line-height: 24px;
+    }
+
+    .hero__correction {
+      font-size: 18px;
+      top: -14px;
+    }
+
+    .hero__pencil {
+      position: absolute;
+      right: -20px;
+      bottom: 60px;
+      width: 220px;
+    }
+  }
+
+  @media (max-width: 899.98px) {
+    .hero .canvas {
+      padding-top: 210px;
+    }
+  }
+</style>
