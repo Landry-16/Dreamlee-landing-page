@@ -1,6 +1,8 @@
 # Dreamlee — Proposition de landing page
 
-Statut : **maquette à valider, développement non commencé**.
+> **Remplacée par la V2 « Le bureau éparpillé »**, validée puis développée : voir le [README du dépôt](../README.md) et la [maquette V2](https://www.figma.com/design/RS6659X85LNvrpUmDjgqrm?node-id=23-4). Ce document décrit la première proposition (V1) et reste pour mémoire.
+
+Statut : **V1, remplacée**.
 
 ## Livrable Figma
 

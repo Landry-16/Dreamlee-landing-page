@@ -1,17 +1,21 @@
 {
   "fileKey": "RS6659X85LNvrpUmDjgqrm",
-  "pages": {
-    "landing": "0:1",
-    "foundations": "3:70",
-    "handoff": "3:71"
+  "current": {
+    "name": "V2 — Le bureau éparpillé",
+    "page": "15:25",
+    "desktop": "23:4",
+    "mobile": "39:2",
+    "storyboard": "43:2",
+    "status": "validated-and-implemented"
   },
-  "desktop": "6:492",
-  "mobile": "6:740",
-  "foundations": "4:2",
-  "handoff": "9:39",
-  "confirmationDesktop": "9:23",
-  "confirmationMobile": "9:31",
-  "status": "awaiting-design-validation",
+  "v1": {
+    "pages": { "landing": "0:1", "foundations": "3:70", "handoff": "3:71" },
+    "desktop": "6:492",
+    "mobile": "6:740",
+    "foundations": "4:2",
+    "handoff": "9:39",
+    "status": "superseded"
+  },
   "cta": "Rejoindre la bêta",
   "figmaTeam": "Sandes Educationnal Team",
   "repository": "git@github.com:Landry-16/Dreamlee-landing-page.git"
