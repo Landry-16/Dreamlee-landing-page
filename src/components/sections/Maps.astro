@@ -1,0 +1,513 @@
+---
+import { Image } from "astro:assets";
+import map from "@/assets/map-continent.png";
+import { t, typo } from "@/content";
+import { MAP_DEFAULTS, MAP_LIMITS } from "@/lib/terrain/defaults";
+import { place } from "@/lib/place";
+
+const m = t.maps;
+const g = m.generator;
+
+const sliders = [
+  { name: "seaLevel", label: g.seaLevel, unit: " %", ...MAP_LIMITS.seaLevel },
+  { name: "islands", label: g.islands, unit: "", ...MAP_LIMITS.islands },
+  { name: "relief", label: g.relief, unit: " %", ...MAP_LIMITS.relief },
+  { name: "coast", label: g.coast, unit: " %", ...MAP_LIMITS.coast },
+] as const;
+---
+
+<section class="maps section surface" id="cartes" aria-labelledby="maps-title" data-map-demo>
+  <div class="stage">
+    <div class="canvas" style="--h:1000">
+      <div class="maps__text at" style={place(960, 110, 400)}>
+        <h2 class="section-title" id="maps-title">
+          {typo(m.title)}
+        </h2>
+        <p class="section-lead maps__lead">{typo(m.lead)}</p>
+      </div>
+
+      <figure class="maps__sheet at paper" style={place(80, 150, 820, -1)}>
+        <div class="maps__map" data-map-default>
+          <Image src={map} alt={typo(m.mapAlt)} width={540} height={360} data-map-image />
+          <canvas class="maps__canvas" aria-hidden="true" data-map-canvas></canvas>
+          <div class="maps__labels" aria-hidden="true" data-map-labels>
+            <span class="maps__place maps__place--big" style="left:22%;top:24%">
+              {typo(m.mapName)}
+            </span>
+            <span class="maps__place" style="left:24%;top:47%;rotate:-8deg">
+              Monts du Guet
+            </span>
+            <span class="maps__place maps__place--sea" style="left:3%;top:4%">
+              Mer des Cendres
+            </span>
+            <span class="maps__place maps__place--sea" style="left:37%;top:73%">
+              {typo("Baie d'Ysmer")}
+            </span>
+            <span class="pin maps__pin" style="left:calc(48% - 8px);top:calc(54% - 8px)"></span>
+            <span class="maps__linked" style="left:50%;top:44%">
+              <strong>{typo(m.linkedPlace)}</strong>
+              <span>{typo(m.linkedPlaceTag)}</span>
+            </span>
+          </div>
+          <svg class="maps__compass" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="22" fill="none" stroke="#3b2f25" stroke-width="1.2"></circle>
+            <path d="M32 4 L37 32 L32 60 L27 32Z" fill="#3b2f25"></path>
+            <path d="M4 32 L32 27 L60 32 L32 37Z" fill="#3b2f25" fill-opacity="0.55"></path>
+            <circle cx="32" cy="32" r="3" fill="#efe4cb"></circle>
+          </svg>
+        </div>
+        <figcaption class="maps__caption typewriter">
+          <span>{typo(m.mapName)}</span>
+          <span data-map-caption></span>
+        </figcaption>
+      </figure>
+
+      <svg
+        class="maps__leader at only-wide"
+        style={place(482, 458, 230)}
+        viewBox="0 0 230 90"
+        aria-hidden="true"
+      >
+        <path
+          d="M2 4 C 60 20, 150 30, 226 86"
+          fill="none"
+          stroke="#b3312b"
+          stroke-width="1.6"
+          stroke-dasharray="4 4"
+        ></path>
+      </svg>
+
+      <div
+        class="maps__detail at paper only-wide"
+        style={place(610, 520, 330, -3.5)}
+        aria-hidden="true"
+      >
+        <div class="maps__detail-window">
+          <canvas data-map-detail></canvas>
+          <div data-map-labels>
+            <span class="pin maps__detail-pin"></span>
+            <span class="maps__place maps__detail-label" style="left:62%;top:36%">
+              Le phare
+            </span>
+            <span class="maps__place maps__detail-label" style="left:24%;top:70%">
+              Port-Veille
+            </span>
+          </div>
+        </div>
+        <p class="typewriter">{typo(m.detailTitle)}</p>
+      </div>
+
+      <div class="maps__tools at" style={place(110, 800, 600)}>
+        <ul class="maps__chips" aria-label={typo(m.toolsLabel)}>
+          {m.tools.map((tool, index) => (
+            <li class:list={["maps__chip", index === 0 && "maps__chip--on"]}>{typo(tool)}</li>
+          ))}
+        </ul>
+        <p class="maps__tools-note hand">{typo(m.toolsNote)}</p>
+      </div>
+
+      <form class="maps__generator at paper" style={place(960, 470, 400)} data-map-form>
+        <h3 class="maps__generator-title">{typo(g.title)}</h3>
+        <div class="maps__seed">
+          <label for="map-seed">{typo(g.seed)}</label>
+          <input
+            id="map-seed"
+            name="seed"
+            type="number"
+            inputmode="numeric"
+            min="0"
+            max="999999"
+            value={MAP_DEFAULTS.seed}
+            class="typewriter"
+          />
+          <button type="button" class="maps__dice" data-map-dice>
+            <span class="visually-hidden">{typo(g.randomSeed)}</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect
+                x="4"
+                y="4"
+                width="16"
+                height="16"
+                rx="3"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+              ></rect>
+              <circle cx="9" cy="9" r="1.4" fill="currentColor"></circle>
+              <circle cx="15" cy="15" r="1.4" fill="currentColor"></circle>
+              <circle cx="12" cy="12" r="1.4" fill="currentColor"></circle>
+            </svg>
+          </button>
+        </div>
+        {sliders.map((slider) => (
+          <div class="maps__slider">
+            <label for={`map-${slider.name}`}>{typo(slider.label)}</label>
+            <output for={`map-${slider.name}`} data-map-output={slider.name}>
+              {MAP_DEFAULTS[slider.name]}
+              {slider.unit}
+            </output>
+            <input
+              id={`map-${slider.name}`}
+              name={slider.name}
+              type="range"
+              min={slider.min}
+              max={slider.max}
+              value={MAP_DEFAULTS[slider.name]}
+              data-unit={slider.unit}
+            />
+          </div>
+        ))}
+        <button
+          class="button maps__submit"
+          type="submit"
+          data-label={typo(g.submit)}
+          data-busy-label={typo(g.generating)}
+        >
+          {typo(g.submit)}
+        </button>
+      </form>
+
+      <p class="maps__offline at typewriter" style={place(990, 918, 360, 2)}>
+        {typo(m.offline)}
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .maps {
+    --base: var(--walnut);
+    --grain-strength: 0.45;
+    background:
+      radial-gradient(ellipse 70% 60% at 45% 35%, rgb(138 94 62 / 0.55), transparent 70%),
+      repeating-radial-gradient(
+        ellipse 180% 14% at 40% 50%,
+        transparent 0 34px,
+        rgb(42 27 18 / 0.18) 35px 37px,
+        transparent 38px 72px
+      ),
+      var(--walnut);
+    color: var(--on-dark);
+  }
+
+  .maps__lead {
+    margin-top: 24px;
+    color: #e8dcc6;
+  }
+
+  .maps__sheet {
+    --sheet: var(--paper-map);
+    margin: 0;
+    padding: 30px 30px 20px;
+    box-shadow: 0 24px 50px rgb(20 10 5 / 0.55);
+    color: var(--text-soft);
+  }
+
+  .maps__map {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: #7fa2b5;
+  }
+
+  .maps__map img,
+  .maps__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .maps__labels,
+  [data-map-labels] {
+    position: absolute;
+    inset: 0;
+    transition: opacity 300ms;
+  }
+
+  [data-map-labels][data-hidden] {
+    opacity: 0;
+  }
+
+  .maps__place {
+    position: absolute;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 16px;
+    color: #3b2f25;
+    white-space: nowrap;
+    text-shadow: 0 0 4px rgb(248 244 236 / 0.8);
+  }
+
+  .maps__place--big {
+    font-size: 28px;
+  }
+
+  .maps__place--sea {
+    color: var(--sea);
+    font-size: 19px;
+  }
+
+  .maps__linked {
+    position: absolute;
+    display: flex;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    background: var(--paper-white);
+    box-shadow: var(--shadow-low);
+    font-size: 13px;
+    white-space: nowrap;
+    color: var(--text);
+  }
+
+  .maps__linked span {
+    color: var(--brick);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .maps__compass {
+    position: absolute;
+    right: 18px;
+    top: 16px;
+    width: 60px;
+  }
+
+  .maps__caption {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    font-size: 14px;
+  }
+
+  .maps__leader {
+    z-index: 2;
+  }
+
+  .maps__detail {
+    --sheet: var(--paper-map);
+    z-index: 3;
+    padding: 16px 16px 12px;
+    color: var(--text-soft);
+    font-size: 13px;
+  }
+
+  .maps__detail-window {
+    position: relative;
+    aspect-ratio: 298 / 190;
+    overflow: hidden;
+    margin-bottom: 10px;
+    background: #7fa2b5;
+  }
+
+  .maps__detail canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  .maps__detail-pin {
+    left: calc(55% - 8px);
+    top: calc(50% - 8px);
+  }
+
+  .maps__detail-label {
+    font-size: 14px;
+  }
+
+  .maps__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 14px;
+    list-style: none;
+    border-radius: 6px;
+    background: var(--paper);
+    box-shadow: var(--shadow-card);
+  }
+
+  .maps__chip {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #eae1cf;
+    color: var(--text-soft);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .maps__chip--on {
+    background: var(--text);
+    color: var(--paper);
+  }
+
+  .maps__tools-note {
+    margin: 12px 0 0 10px;
+    color: var(--chalk);
+    font-size: 28px;
+    rotate: 1.5deg;
+  }
+
+  .maps__generator {
+    --sheet: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 22px 24px 24px;
+    border-radius: 6px;
+    color: var(--text);
+    box-shadow: 0 20px 40px rgb(20 10 5 / 0.5);
+  }
+
+  .maps__generator-title {
+    font-size: 21px;
+    font-weight: 600;
+  }
+
+  .maps__seed {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .maps__seed label,
+  .maps__slider label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  .maps__seed label {
+    flex: 1;
+  }
+
+  .maps__seed input {
+    width: 110px;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid #d8ccb6;
+    border-radius: 4px;
+    background: var(--paper-white);
+    font-size: 16px;
+  }
+
+  .maps__dice {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid #d8ccb6;
+    border-radius: 4px;
+    background: var(--paper-white);
+    transition: transform 300ms var(--ease-out);
+  }
+
+  .maps__dice:hover {
+    transform: rotate(-12deg);
+  }
+
+  .maps__dice svg {
+    width: 22px;
+  }
+
+  .maps__slider {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px;
+  }
+
+  .maps__slider output {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .maps__slider input {
+    grid-column: 1 / -1;
+    width: 100%;
+    accent-color: var(--brick);
+  }
+
+  .maps__submit {
+    margin-top: 4px;
+  }
+
+  .maps__offline {
+    padding: 10px 14px;
+    white-space: nowrap;
+    background: var(--paper-map);
+    color: var(--text-soft);
+    font-size: 14px;
+    box-shadow: var(--shadow-card);
+  }
+
+  @media (min-width: 1200px) {
+    .maps__place {
+      font-size: calc(16 * var(--u));
+    }
+
+    .maps__place--big {
+      font-size: calc(28 * var(--u));
+    }
+
+    .maps__place--sea {
+      font-size: calc(19 * var(--u));
+    }
+
+    .maps__tools-note {
+      font-size: calc(28 * var(--u));
+    }
+  }
+
+  @media (max-width: 1199.98px) {
+    .maps__text {
+      order: -1;
+    }
+
+    .maps__sheet {
+      padding: 14px 14px 10px;
+    }
+
+    .maps__place {
+      font-size: 12px;
+    }
+
+    .maps__place--big {
+      font-size: 17px;
+    }
+
+    .maps__place--sea {
+      font-size: 13px;
+    }
+
+    .maps__linked {
+      padding: 3px 6px;
+      font-size: 10px;
+    }
+
+    .maps__linked span {
+      display: none;
+    }
+
+    .maps__compass {
+      width: 36px;
+      right: 8px;
+      top: 8px;
+    }
+
+    .maps__caption {
+      font-size: 12px;
+    }
+
+    .maps__tools {
+      order: 2;
+    }
+
+    .maps__tools-note {
+      font-size: 24px;
+    }
+
+    .maps__offline {
+      order: 3;
+      align-self: flex-start;
+    }
+  }
+</style>

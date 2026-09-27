@@ -74,15 +74,23 @@ function hash(x: number, y: number): number {
   return (h ^ (h >>> 16)) >>> 0;
 }
 
-/** Paints `terrain` into `image`, with `k` pixels per cell. */
-export function renderTerrain(image: ImageData, terrain: Terrain, k: number): void {
+/**
+ * Paints `terrain` into `image`, with `k` pixels per cell. `origin` is the
+ * cell shown at the top-left corner, to paint a zoomed-in detail.
+ */
+export function renderTerrain(
+  image: ImageData,
+  terrain: Terrain,
+  k: number,
+  origin: { x: number; y: number } = { x: 0, y: 0 },
+): void {
   const { width, height, elevation, vegetation, waterLevel } = terrain;
   const data = image.data;
   const shore = waterLevel + 0.5;
   for (let py = 0; py < image.height; py += 1) {
-    const v = (py + 0.5) / k - 0.5;
+    const v = origin.y + (py + 0.5) / k - 0.5;
     for (let px = 0; px < image.width; px += 1) {
-      const u = (px + 0.5) / k - 0.5;
+      const u = origin.x + (px + 0.5) / k - 0.5;
       const e = sample(elevation, width, height, u, v);
       const gx =
         (sample(elevation, width, height, u + 1, v) - sample(elevation, width, height, u - 1, v)) /

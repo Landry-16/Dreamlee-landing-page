@@ -1,4 +1,5 @@
 import { initBoard } from "./demos/board";
+import { initMapDemo } from "./demos/map-demo";
 import { initTyping } from "./demos/typing";
 import { initMotion } from "./motion";
 import { initNav } from "./nav";
@@ -9,3 +10,4 @@ initNav();
 initMotion(reducedMotion);
 initTyping(reducedMotion);
 initBoard(reducedMotion);
+initMapDemo();
