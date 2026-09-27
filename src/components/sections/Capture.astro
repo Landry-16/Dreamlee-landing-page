@@ -1,0 +1,560 @@
+---
+import { t, typo, plural } from "@/content";
+import { place } from "@/lib/place";
+
+const c = t.capture;
+const s = c.search;
+const initialCount = 7;
+const flying: [number, number, number, string][] = [
+  [620, 560, 12, "var(--postit-orange)"],
+  [720, 610, -9, "var(--postit-yellow)"],
+  [800, 690, 4, "var(--paper)"],
+];
+---
+
+<section class="capture section surface" id="capture" aria-labelledby="capture-title" data-capture>
+  <div class="stage">
+    <div class="canvas" style="--h:1000">
+      <div class="capture__text at" style={place(120, 110, 540)}>
+        <h2 class="section-title" id="capture-title">
+          {typo(c.title)}
+        </h2>
+        <p class="section-lead capture__lead">{typo(c.lead)}</p>
+        <p class="capture__keys" aria-label={c.shortcut.join("+")}>
+          {c.shortcut.map((key, index) => (
+            <>
+              {index > 0 && <span aria-hidden="true">+</span>}
+              <kbd>{key}</kbd>
+            </>
+          ))}
+        </p>
+      </div>
+
+      <form class="capture__pad at" style={place(150, 510, 400, 3)} data-capture-form novalidate>
+        <span class="capture__sheet capture__sheet--2" aria-hidden="true"></span>
+        <span class="capture__sheet capture__sheet--1" aria-hidden="true"></span>
+        <div class="capture__top" data-capture-top>
+          <p class="capture__pad-title">{typo(c.padTitle)}</p>
+          <label class="visually-hidden" for="capture-idea">
+            {typo(c.padLabel)}
+          </label>
+          <textarea
+            id="capture-idea"
+            class="capture__idea hand"
+            name="idea"
+            rows="3"
+            maxlength="140"
+            placeholder={typo(c.padPlaceholder)}
+            aria-describedby="capture-hint capture-status"
+          ></textarea>
+          <p class="capture__destination">
+            {typo(c.destination)}
+            <span class="capture__chip">{typo(c.destinationValue)}</span>
+          </p>
+          <div class="capture__submit-row">
+            <p class="capture__hint" id="capture-hint">
+              {typo(c.hint)}
+            </p>
+            <button class="capture__submit" type="submit">
+              {typo(c.submit)}
+            </button>
+          </div>
+        </div>
+        <p
+          class="visually-hidden"
+          id="capture-status"
+          role="status"
+          data-capture-status
+          data-empty={typo(c.empty)}
+          data-done={typo(c.captured)}
+        ></p>
+      </form>
+
+      <svg
+        class="capture__trail at only-wide"
+        style={place(560, 520, 420)}
+        viewBox="0 0 420 260"
+        aria-hidden="true"
+      >
+        <path d="M6 60 C 90 10, 200 20, 260 110 S 360 230, 410 250"></path>
+      </svg>
+
+      {c.flying.map((idea, index) => {
+        const [x, y, r, color] = flying[index] ?? [0, 0, 0, ""];
+        return (
+          <p
+            class="capture__flying hand at only-wide"
+            style={`${place(x, y, 120, r)};--note:${color}`}
+            aria-hidden="true"
+          >
+            {typo(idea)}
+          </p>
+        );
+      })}
+
+      <div class="capture__tray at" style={place(930, 700, 400)} data-capture-tray>
+        <div class="capture__tray-back" aria-hidden="true"></div>
+        <div class="capture__tray-notes" aria-hidden="true" data-capture-notes>
+          <span style="--note:var(--postit-yellow);--r:-4deg;left:10%"></span>
+          <span style="--note:var(--paper);--r:3deg;left:30%;top:-14px"></span>
+          <span style="--note:var(--postit-orange);--r:-2deg;left:52%"></span>
+          <span style="--note:var(--paper);--r:5deg;left:70%;top:-10px"></span>
+        </div>
+        <div class="capture__tray-front">
+          <p class="capture__tray-label">
+            <strong>{typo(c.trayTitle)}</strong>
+            <span
+              class="typewriter"
+              aria-live="polite"
+              data-capture-count
+              data-one={c.trayCount.one}
+              data-other={c.trayCount.other}
+              data-count={initialCount}
+            >
+              {plural(initialCount, c.trayCount)}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="capture__palette at" style={place(820, 120, 520, -1.5)} data-palette>
+        <div class="capture__search">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.5-3.5"></path>
+          </svg>
+          <label class="visually-hidden" for="palette-input">
+            {typo(s.label)}
+          </label>
+          <input
+            id="palette-input"
+            type="search"
+            role="combobox"
+            aria-expanded="true"
+            aria-controls="palette-results"
+            aria-autocomplete="list"
+            autocomplete="off"
+            spellcheck="false"
+            value={s.initial}
+            placeholder={typo(s.placeholder)}
+            data-palette-input
+          />
+          <kbd>{s.shortcut}</kbd>
+        </div>
+        <p class="capture__results-title" id="palette-results-title">
+          {typo(s.results)}
+        </p>
+        <ul
+          class="capture__results"
+          id="palette-results"
+          role="listbox"
+          aria-labelledby="palette-results-title"
+          data-palette-results
+          data-none={typo(s.none)}
+        ></ul>
+        <p class="capture__see-all" data-palette-all data-template={typo(s.seeAll)}></p>
+        <script
+          type="application/json"
+          data-palette-index
+          set:html={JSON.stringify(s.index.map((item) => ({ ...item, text: typo(item.text) })))}
+        />
+      </div>
+
+      <p class="capture__note hand at" style={place(860, 450, 480, 1.5)} aria-hidden="true">
+        {typo(s.note)}
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .capture {
+    --base: var(--leather);
+    --grain-strength: 0.35;
+    background:
+      radial-gradient(ellipse 60% 55% at 40% 45%, rgb(111 160 128 / 0.4), transparent 70%),
+      radial-gradient(ellipse at 50% 50%, transparent 55%, rgb(8 14 10 / 0.5)), var(--leather);
+    color: var(--on-dark);
+  }
+
+  .capture__lead {
+    margin-top: 24px;
+    color: var(--on-dark-soft);
+  }
+
+  .capture__keys {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 40px;
+    font-size: 20px;
+    color: var(--on-dark-soft);
+  }
+
+  kbd {
+    font-family: var(--font-ui);
+  }
+
+  .capture__keys kbd {
+    display: inline-grid;
+    place-items: center;
+    min-width: 60px;
+    height: 48px;
+    padding: 0 16px;
+    border-radius: 9px;
+    background: linear-gradient(#fffdf8, #e4dac6);
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow:
+      0 5px 0 #a99b80,
+      0 10px 14px rgb(0 0 0 / 0.45);
+  }
+
+  /* The post-it pad is the capture form. */
+  .capture__pad {
+    aspect-ratio: 1;
+  }
+
+  .capture__sheet,
+  .capture__top {
+    position: absolute;
+    inset: 0;
+    border-radius: 2px;
+  }
+
+  .capture__sheet--2 {
+    translate: 10px 12px;
+    background: #d9be55;
+    box-shadow: 0 12px 24px rgb(0 0 0 / 0.4);
+  }
+
+  .capture__sheet--1 {
+    translate: 5px 6px;
+    background: #e6ca5e;
+  }
+
+  .capture__top {
+    display: flex;
+    flex-direction: column;
+    padding: 26px 28px 24px;
+    background: var(--postit-yellow);
+    color: #6b5510;
+  }
+
+  .capture__top::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--grain);
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  .capture__pad-title {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .capture__idea {
+    flex: 1;
+    margin-top: 8px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font-size: 46px;
+    line-height: 1.05;
+    resize: none;
+    caret-color: var(--ink);
+    position: relative;
+    z-index: 1;
+  }
+
+  .capture__idea::placeholder {
+    color: rgb(31 43 77 / 0.55);
+  }
+
+  .capture__idea:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .capture__top:focus-within {
+    box-shadow: 0 0 0 3px var(--paper-white);
+  }
+
+  .capture__destination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .capture__chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #fff6cf;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .capture__submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .capture__hint {
+    font-size: 13px;
+  }
+
+  .capture__submit {
+    padding: 9px 16px;
+    border: 0;
+    border-radius: 4px;
+    background: var(--text);
+    color: var(--postit-yellow);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .capture__trail path {
+    fill: none;
+    stroke: rgb(246 240 228 / 0.45);
+    stroke-width: 2;
+    stroke-dasharray: 3 8;
+    stroke-linecap: round;
+  }
+
+  .capture__flying,
+  :global(.capture__flight) {
+    aspect-ratio: 120 / 110;
+    padding: 12px;
+    background: var(--note);
+    color: var(--ink);
+    font-size: 24px;
+    line-height: 1;
+    box-shadow: 0 14px 20px rgb(0 0 0 / 0.45);
+  }
+
+  :global(.capture__flight) {
+    position: fixed;
+    z-index: 60;
+    width: 120px;
+    font-family: var(--font-hand);
+    pointer-events: none;
+  }
+
+  /* Letter tray */
+  .capture__tray {
+    aspect-ratio: 400 / 230;
+  }
+
+  .capture__tray-back {
+    position: absolute;
+    inset: 4% 0 35%;
+    border-radius: 6px;
+    background: #6b4a33;
+  }
+
+  .capture__tray-notes span {
+    position: absolute;
+    top: -6px;
+    width: 27%;
+    aspect-ratio: 1.1;
+    background: var(--note);
+    rotate: var(--r);
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.3);
+  }
+
+  .capture__tray-front {
+    position: absolute;
+    inset: 48% 0 0;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+    background: linear-gradient(#8a6446, #5a3e2b);
+    box-shadow: 0 16px 28px rgb(0 0 0 / 0.5);
+  }
+
+  .capture__tray-label {
+    display: grid;
+    gap: 2px;
+    padding: 10px 16px;
+    background: var(--paper);
+    color: var(--text);
+    font-size: 15px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.3);
+  }
+
+  .capture__tray-label span {
+    color: var(--brick);
+    font-size: 13px;
+  }
+
+  /* Search palette */
+  .capture__palette {
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--paper-white);
+    color: var(--text);
+    box-shadow: 0 24px 50px rgb(0 0 0 / 0.5);
+  }
+
+  .capture__search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-bottom: 1px solid #e6dccb;
+  }
+
+  .capture__search svg {
+    width: 18px;
+    fill: none;
+    stroke: #7a6e62;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .capture__search input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: none;
+    font-size: 18px;
+  }
+
+  .capture__search input:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .capture__search:focus-within {
+    box-shadow: inset 0 -2px 0 var(--brick);
+  }
+
+  .capture__search kbd {
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: #f1eadd;
+    color: #7a6e62;
+    font-size: 12px;
+  }
+
+  .capture__results-title {
+    padding: 12px 20px 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #7a6e62;
+  }
+
+  .capture__results {
+    min-height: 176px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .capture__results :global(li) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .capture__results :global(li[aria-selected="true"]) {
+    background: #f4e7dc;
+  }
+
+  .capture__results :global(li > span:first-child) {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .capture__results :global(mark) {
+    background: none;
+    color: var(--brick);
+    font-weight: 700;
+  }
+
+  .capture__results :global(.kind) {
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #f1eadd;
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .capture__results :global(li[aria-selected="true"] .kind) {
+    background: var(--brick);
+    color: var(--paper-white);
+  }
+
+  .capture__results :global(.empty) {
+    color: var(--text-faint);
+    cursor: default;
+  }
+
+  .capture__see-all {
+    padding: 12px 20px 14px;
+    background: #f7f2e9;
+    color: var(--brick);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .capture__note {
+    font-size: 28px;
+    color: var(--chalk);
+  }
+
+  @media (min-width: 1200px) {
+    .capture__idea {
+      font-size: calc(46 * var(--u));
+    }
+
+    .capture__note {
+      font-size: calc(28 * var(--u));
+    }
+  }
+
+  @media (max-width: 1199.98px) {
+    .capture__pad {
+      width: min(100%, 360px);
+      align-self: center;
+    }
+
+    .capture__idea {
+      font-size: 36px;
+    }
+
+    .capture__tray {
+      width: min(100%, 360px);
+      align-self: center;
+      margin-top: 12px;
+    }
+
+    .capture__keys kbd {
+      min-width: 52px;
+      height: 44px;
+    }
+
+    .capture__note {
+      font-size: 24px;
+    }
+  }
+</style>
