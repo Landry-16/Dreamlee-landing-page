@@ -1,0 +1,6 @@
+dist
+.astro
+pnpm-lock.yaml
+design/exports
+playwright-report
+test-results
