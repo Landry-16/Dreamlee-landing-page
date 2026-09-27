@@ -1,0 +1,11 @@
+import { initBoard } from "./demos/board";
+import { initTyping } from "./demos/typing";
+import { initMotion } from "./motion";
+import { initNav } from "./nav";
+
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+initNav();
+initMotion(reducedMotion);
+initTyping(reducedMotion);
+initBoard(reducedMotion);
