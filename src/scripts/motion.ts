@@ -94,6 +94,24 @@ function growBars(): void {
   });
 }
 
+/** At the end of the page the desk is tidy: the objects straighten up. */
+function tidyDesk(): void {
+  const objects = document.querySelectorAll("[data-tidy-end]");
+  if (!objects.length) return;
+  gsap.from(objects, {
+    x: (index: number) => (index < 2 ? -80 : 80),
+    y: -40,
+    rotation: (index: number) => [-14, 9, 12, -18][index] ?? 0,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: objects[0]?.closest("section") ?? objects[0],
+      start: "top 85%",
+      end: "top 25%",
+      scrub: 0.6,
+    },
+  });
+}
+
 /**
  * Starts the scroll choreography, unless the visitor asked for less motion:
  * then everything is simply shown in its final, tidy state.
@@ -106,5 +124,6 @@ export function initMotion(reducedMotion: boolean): void {
   const media = gsap.matchMedia();
   media.add(WIDE, () => {
     tidyUp();
+    tidyDesk();
   });
 }

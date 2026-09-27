@@ -1,0 +1,427 @@
+---
+import { Image } from "astro:assets";
+import logo from "@/assets/logo.png";
+import map from "@/assets/map-continent.png";
+import { t, typo, format } from "@/content";
+import { place } from "@/lib/place";
+
+const b = t.beta;
+const f = t.footer;
+const endpoint = import.meta.env.PUBLIC_BETA_ENDPOINT ?? "";
+---
+
+<section class="beta section surface" id="beta" aria-labelledby="beta-title" data-beta>
+  <div class="stage">
+    <div class="canvas" style="--h:830">
+      <div class="beta__objects" aria-hidden="true">
+        <div class="beta__postits at only-wide" style={place(150, 250, 150)} data-tidy-end>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="beta__pages at only-wide" style={place(130, 470, 190)} data-tidy-end>
+          <span class="paper"></span>
+          <span class="paper"></span>
+          <span class="paper"></span>
+        </div>
+        <div class="beta__map at paper only-wide" style={place(1130, 250, 170)} data-tidy-end>
+          <Image src={map} alt="" width={200} />
+        </div>
+        <div class="beta__pencils at only-wide" style={place(1215, 500, 60)} data-tidy-end>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div class="beta__sheet at paper" style={place(380, 130, 680)}>
+        <p class="beta__kicker">{typo(b.kicker)}</p>
+        <h2 class="beta__title" id="beta-title">
+          {typo(b.title)}
+        </h2>
+        <p class="beta__lead">{typo(b.lead)}</p>
+
+        <form
+          class="beta__form"
+          novalidate
+          data-beta-form
+          data-endpoint={endpoint}
+          data-messages={JSON.stringify(
+            Object.fromEntries(Object.entries(b.states).map(([key, value]) => [key, typo(value)])),
+          )}
+        >
+          <label class="beta__label" for="beta-email">
+            {typo(b.emailLabel)}
+          </label>
+          <div class="beta__row">
+            <input
+              id="beta-email"
+              name="email"
+              type="email"
+              inputmode="email"
+              autocomplete="email"
+              required
+              placeholder={b.emailPlaceholder}
+              aria-describedby="beta-message beta-privacy"
+            />
+            <button
+              class="button"
+              type="submit"
+              data-label={typo(b.submit)}
+              data-busy={typo(b.sending)}
+            >
+              {typo(b.submit)}
+            </button>
+          </div>
+          <p class="beta__message" id="beta-message" role="status" data-beta-message></p>
+          <p class="beta__privacy" id="beta-privacy">
+            {typo(b.privacy)}
+          </p>
+        </form>
+        <p class="beta__signature hand" aria-hidden="true">
+          {typo(b.signature)}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="#top" class="footer__logo">
+          <Image src={logo} alt="" width={28} height={28} />
+          <span>Dreamlee</span>
+        </a>
+        <p>{typo(f.tagline)}</p>
+      </div>
+      <nav aria-label={typo(f.linksLabel)}>
+        <ul class="footer__links">
+          {f.links.map((link) => (
+            <li>
+              <a href={link.href}>{typo(link.label)}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div class="footer__privacy" id="confidentialite">
+        <h2>{typo(f.privacyTitle)}</h2>
+        <p>{typo(f.privacy)}</p>
+      </div>
+      <p class="footer__copyright">{format(f.copyright, { year: new Date().getFullYear() })}</p>
+    </div>
+  </footer>
+</section>
+
+<style>
+  .beta {
+    --base: var(--leather);
+    --grain-strength: 0.35;
+    background:
+      radial-gradient(ellipse 55% 60% at 50% 40%, rgb(86 131 106 / 0.5), transparent 70%),
+      var(--leather);
+  }
+
+  /* The desk, tidied up */
+  .beta__postits {
+    aspect-ratio: 1;
+  }
+
+  .beta__postits span {
+    position: absolute;
+    inset: 0;
+    background: var(--postit-orange);
+    box-shadow: var(--shadow-low);
+  }
+
+  .beta__postits span:nth-child(2) {
+    translate: 0 -4px;
+    background: var(--paper);
+  }
+
+  .beta__postits span:nth-child(3) {
+    translate: 0 -8px;
+    background: var(--postit-yellow);
+  }
+
+  .beta__pages {
+    aspect-ratio: 190 / 250;
+  }
+
+  .beta__pages span {
+    --sheet: #eae2d0;
+    position: absolute;
+    inset: 0;
+    box-shadow: var(--shadow-low);
+  }
+
+  .beta__pages span:nth-child(2) {
+    translate: 0 -4px;
+  }
+
+  .beta__pages span:nth-child(3) {
+    --sheet: var(--paper-page);
+    translate: 0 -8px;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 14px,
+      #cfc3ae 14px 19px,
+      transparent 19px 26px
+    );
+    background-size: 70% 70%;
+    background-position: 50% 60%;
+    background-repeat: no-repeat;
+  }
+
+  .beta__map {
+    --sheet: var(--paper-map);
+    padding: 10px;
+  }
+
+  .beta__map img {
+    width: 100%;
+    aspect-ratio: 142 / 182;
+    object-fit: cover;
+  }
+
+  .beta__pencils {
+    display: flex;
+    gap: 12px;
+    height: calc(300 * var(--u, 1px));
+  }
+
+  .beta__pencils span {
+    width: 22px;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      #e7c9a0 0 8%,
+      #e3b23c 8% 88%,
+      #b8b8b8 88% 93%,
+      #e78a8a 93%
+    );
+    clip-path: polygon(50% 0, 100% 8%, 100% 100%, 0 100%, 0 8%);
+    filter: drop-shadow(0 6px 6px rgb(0 0 0 / 0.4));
+  }
+
+  /* The blank sheet */
+  .beta__sheet {
+    --sheet: #faf6ec;
+    padding: 90px 70px 70px;
+    text-align: center;
+    box-shadow: 0 30px 60px rgb(0 0 0 / 0.5);
+  }
+
+  .beta__kicker {
+    font-size: 13px;
+    font-weight: 600;
+    color: #9e4d29;
+  }
+
+  .beta__title {
+    margin-top: 14px;
+    font-size: 60px;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+
+  .beta__lead {
+    margin: 26px auto 0;
+    max-width: 24em;
+    font-family: var(--font-book);
+    font-style: italic;
+    font-size: 19px;
+    color: var(--text-soft);
+  }
+
+  .beta__form {
+    width: min(100%, 470px);
+    margin: 40px auto 0;
+    text-align: left;
+  }
+
+  .beta__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-soft);
+  }
+
+  .beta__row {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .beta__row input {
+    flex: 1;
+    min-width: 0;
+    height: 52px;
+    padding: 0 16px;
+    border: 1.5px solid #bfb29c;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 16px;
+  }
+
+  .beta__row input:focus-visible {
+    border-color: var(--brick);
+  }
+
+  .beta__row input[aria-invalid="true"] {
+    border-color: #b3312b;
+    box-shadow: 0 0 0 3px rgb(179 49 43 / 0.15);
+  }
+
+  .beta__message {
+    min-height: 1.4em;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .beta__message[data-tone="error"] {
+    color: #a3281f;
+  }
+
+  .beta__message[data-tone="success"] {
+    color: var(--forest);
+  }
+
+  .beta__message[data-tone="error"]::before {
+    content: "⚠︎ ";
+  }
+
+  .beta__message[data-tone="success"]::before {
+    content: "✓ ";
+  }
+
+  .beta__privacy {
+    font-size: 13px;
+    color: var(--text-faint);
+  }
+
+  .beta__signature {
+    margin: 26px 40px 0 auto;
+    width: fit-content;
+    font-size: 34px;
+    color: #9e4d29;
+    rotate: -3deg;
+  }
+
+  /* Footer */
+  .footer {
+    background: var(--footer);
+    color: var(--on-dark);
+  }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px 48px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 48px 120px 40px;
+  }
+
+  .footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .footer__logo img {
+    border-radius: 6px;
+  }
+
+  .footer__brand p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #afc1b4;
+  }
+
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .footer__links a {
+    text-decoration: none;
+  }
+
+  .footer__links a:hover {
+    text-decoration: underline;
+  }
+
+  .footer__privacy {
+    max-width: 44em;
+    font-size: 13px;
+    color: #afc1b4;
+  }
+
+  .footer__privacy h2 {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--on-dark);
+  }
+
+  .footer__copyright {
+    align-self: end;
+    justify-self: end;
+    font-size: 13px;
+    color: #8fa396;
+  }
+
+  @media (min-width: 1200px) {
+    .beta__title {
+      font-size: calc(60 * var(--u));
+    }
+
+    .beta__sheet {
+      padding: calc(90 * var(--u)) calc(70 * var(--u)) calc(60 * var(--u));
+    }
+  }
+
+  @media (max-width: 1199.98px) {
+    .beta__sheet {
+      padding: 44px 24px 36px;
+    }
+
+    .beta__title {
+      font-size: 38px;
+    }
+
+    .beta__lead {
+      font-size: 17px;
+    }
+
+    .beta__row {
+      flex-direction: column;
+    }
+
+    .beta__row input {
+      flex: none;
+    }
+
+    .beta__signature {
+      margin-right: 10px;
+      font-size: 28px;
+    }
+
+    .footer__inner {
+      grid-template-columns: 1fr;
+      padding: 40px 24px 32px;
+    }
+
+    .footer__copyright {
+      justify-self: start;
+    }
+  }
+</style>

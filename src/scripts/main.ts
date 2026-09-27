@@ -1,4 +1,6 @@
+import { initBetaForm } from "./demos/beta-form";
 import { initBoard } from "./demos/board";
+import { initFaq } from "./demos/faq";
 import { initCapture } from "./demos/capture";
 import { initPalette } from "./demos/palette";
 import { initTimer } from "./demos/timer";
@@ -19,3 +21,5 @@ initCapture(reducedMotion);
 initPalette();
 initTimer();
 initVersions(reducedMotion);
+initFaq(reducedMotion);
+initBetaForm();
