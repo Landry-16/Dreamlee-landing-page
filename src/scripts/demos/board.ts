@@ -47,26 +47,34 @@ export function initBoard(reducedMotion: boolean): void {
     },
   );
 
+  /** Zoom of the wide layout: screen pixels per CSS pixel of the board. */
+  const zoom = () => board.getBoundingClientRect().width / (board.offsetWidth || 1) || 1;
+
   const pinOf = (id: string) => {
     const card = cards.get(id);
     if (!card || card.offsetParent === null) return null;
     const pin = card.querySelector("[data-pin]")?.getBoundingClientRect();
     const origin = board.getBoundingClientRect();
     if (!pin) return null;
-    return { x: pin.left + pin.width / 2 - origin.left, y: pin.top + pin.height / 2 - origin.top };
+    const z = zoom();
+    return {
+      x: (pin.left + pin.width / 2 - origin.left) / z,
+      y: (pin.top + pin.height / 2 - origin.top) / z,
+    };
   };
 
   const cardBoxes = () => {
     const origin = board.getBoundingClientRect();
+    const z = zoom();
     return [...cards.values()]
       .filter((card) => card.offsetParent !== null)
       .map((card) => {
         const box = card.getBoundingClientRect();
         return {
-          left: box.left - origin.left,
-          top: box.top - origin.top,
-          right: box.right - origin.left,
-          bottom: box.bottom - origin.top,
+          left: (box.left - origin.left) / z,
+          top: (box.top - origin.top) / z,
+          right: (box.right - origin.left) / z,
+          bottom: (box.bottom - origin.top) / z,
         };
       });
   };
@@ -128,10 +136,15 @@ export function initBoard(reducedMotion: boolean): void {
       if (event.button !== 0) return;
       const start = offsets.get(id) ?? { x: 0, y: 0 };
       const origin = { x: event.clientX, y: event.clientY };
+      const z = zoom();
       card.setPointerCapture(event.pointerId);
       card.setAttribute("data-dragging", "");
       const onMove = (moveEvent: PointerEvent) =>
-        move(id, start.x + moveEvent.clientX - origin.x, start.y + moveEvent.clientY - origin.y);
+        move(
+          id,
+          start.x + (moveEvent.clientX - origin.x) / z,
+          start.y + (moveEvent.clientY - origin.y) / z,
+        );
       const onUp = () => {
         card.removeAttribute("data-dragging");
         card.removeEventListener("pointermove", onMove);

@@ -166,8 +166,9 @@ p {
 }
 
 /* ---------- Poster layout (wide screens) ----------
- * From 1200 px, each section is laid out like its Figma frame: a 1440-unit
- * canvas scaled to the viewport, with objects placed in canvas units.
+ * From 1200 px, each section is laid out like its Figma frame: objects are
+ * placed on a 1440 px canvas, which is zoomed out as a whole (text
+ * included) on screens a little narrower, so the composition never breaks.
  */
 
 .stage {
@@ -175,14 +176,16 @@ p {
   width: 100%;
   max-width: 1440px;
   margin-inline: auto;
-  container-type: inline-size;
 }
 
 @media (min-width: 1200px) {
   .canvas {
-    --u: calc(100cqw / 1440);
+    --u: 1px;
     position: relative;
+    width: 1440px;
     height: calc(var(--h) * var(--u));
+    margin-inline: auto;
+    zoom: var(--zoom, 1);
   }
 
   .at {
@@ -195,6 +198,30 @@ p {
 
   .only-narrow {
     display: none !important;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1259.98px) {
+  :root {
+    --zoom: 0.833;
+  }
+}
+
+@media (min-width: 1260px) and (max-width: 1319.98px) {
+  :root {
+    --zoom: 0.875;
+  }
+}
+
+@media (min-width: 1320px) and (max-width: 1379.98px) {
+  :root {
+    --zoom: 0.916;
+  }
+}
+
+@media (min-width: 1380px) and (max-width: 1439.98px) {
+  :root {
+    --zoom: 0.958;
   }
 }
 
@@ -267,7 +294,7 @@ p {
 }
 
 .section-title {
-  font-size: clamp(34px, calc(46 * var(--u, 1px)), 46px);
+  font-size: 46px;
   line-height: 1.13;
 }
 
@@ -279,11 +306,7 @@ p {
 
 @media (min-width: 1200px) {
   .section-title {
-    font-size: max(34px, calc(46 * var(--u)));
-  }
-
-  .section-lead {
-    font-size: max(15px, calc(17 * var(--u)));
+    font-size: 46px;
   }
 }
 
