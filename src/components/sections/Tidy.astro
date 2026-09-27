@@ -1,0 +1,235 @@
+---
+import { Image } from "astro:assets";
+import manuscript from "@/assets/app-manuscript.png";
+import map from "@/assets/map-continent.png";
+import { t, typo } from "@/content";
+import { place } from "@/lib/place";
+
+const s = t.tidy;
+---
+
+<section class="tidy section surface" id="rangement" aria-labelledby="tidy-title" data-tidy>
+  <div class="stage">
+    <div class="canvas" style="--h:1000">
+      <div class="tidy__strip at paper" style={place(276, 70, 888, -0.8)}>
+        <span class="tidy__tape" aria-hidden="true"></span>
+        <h2 class="tidy__title section-title" id="tidy-title">
+          {typo(s.title)}
+        </h2>
+        <p class="tidy__lead">{typo(s.lead)}</p>
+      </div>
+
+      <figure class="tidy__window at" style={place(240, 262, 960)} data-tidy-window>
+        <Image
+          src={manuscript}
+          alt={typo(s.screenshotAlt)}
+          widths={[640, 960, 1440]}
+          sizes="(min-width: 1200px) 67vw, 100vw"
+        />
+      </figure>
+
+      <div class="tidy__objects" aria-hidden="true">
+        <div
+          class="tidy__object tidy__postit at"
+          style={place(70, 300, 110, 8)}
+          data-tidy-object="left"
+        ></div>
+        <p class="tidy__label hand at" style={place(40, 418, 190, 3)} data-tidy-label>
+          → {typo(s.labels.inbox)}
+        </p>
+
+        <div
+          class="tidy__object tidy__card at paper"
+          style={place(64, 560, 130, -6)}
+          data-tidy-object="left"
+        >
+          <span class="typewriter">{t.hero.card.name.toUpperCase()}</span>
+        </div>
+        <p class="tidy__label hand at" style={place(40, 668, 190, -2)} data-tidy-label>
+          → {typo(s.labels.characters)}
+        </p>
+
+        <div
+          class="tidy__object tidy__map at paper"
+          style={place(1262, 300, 128, 5)}
+          data-tidy-object="right"
+        >
+          <Image src={map} alt="" width={200} />
+        </div>
+        <p
+          class="tidy__label tidy__label--right hand at"
+          style={place(1250, 408, 150, -4)}
+          data-tidy-label
+        >
+          {typo(s.labels.maps)} ←
+        </p>
+
+        <div
+          class="tidy__object tidy__pages at"
+          style={place(1290, 530, 104, -7)}
+          data-tidy-object="right"
+        >
+          <span class="paper"></span>
+          <span class="paper"></span>
+        </div>
+        <p
+          class="tidy__label tidy__label--right hand at"
+          style={place(1240, 686, 170, 2)}
+          data-tidy-label
+        >
+          {typo(s.labels.manuscript)} ←
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tidy {
+    --base: var(--tidy);
+    --glow: rgb(255 253 246 / 0.7);
+    --grain-strength: 0.22;
+  }
+
+  .tidy__strip {
+    --sheet: var(--paper-warm);
+    padding: 28px 48px 30px;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+    z-index: 2;
+  }
+
+  .tidy__tape {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    width: 120px;
+    height: 34px;
+    translate: -50% 0;
+    rotate: -4deg;
+    background: rgb(236 226 198 / 0.75);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+  }
+
+  .tidy__title {
+    color: var(--text);
+  }
+
+  .tidy__lead {
+    margin: 12px auto 0;
+    max-width: 36em;
+    color: var(--text-muted);
+  }
+
+  .tidy__window {
+    margin: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow:
+      0 30px 60px rgb(40 30 15 / 0.28),
+      0 0 0 1px rgb(40 30 15 / 0.08);
+    background: var(--paper-white);
+  }
+
+  .tidy__window img {
+    width: 100%;
+    height: auto;
+  }
+
+  .tidy__object {
+    box-shadow: var(--shadow-card);
+  }
+
+  .tidy__postit {
+    aspect-ratio: 110 / 106;
+    background: var(--postit-yellow);
+  }
+
+  .tidy__card {
+    --sheet: var(--paper-warm);
+    aspect-ratio: 130 / 82;
+    padding: 10px 12px;
+    font-size: 12px;
+    border-top: 12px solid transparent;
+    background-image: linear-gradient(rgb(214 107 107 / 0.7), rgb(214 107 107 / 0.7));
+    background-size: 100% 1.5px;
+    background-repeat: no-repeat;
+    background-position: 0 14px;
+  }
+
+  .tidy__map {
+    --sheet: var(--paper-map);
+    padding: 6px;
+  }
+
+  .tidy__map img {
+    width: 100%;
+    height: auto;
+  }
+
+  .tidy__pages {
+    aspect-ratio: 104 / 132;
+    box-shadow: none;
+  }
+
+  .tidy__pages span {
+    --sheet: var(--paper-page);
+    position: absolute;
+    inset: 0;
+    box-shadow: var(--shadow-card);
+  }
+
+  .tidy__pages span:first-child {
+    rotate: 5deg;
+  }
+
+  .tidy__label {
+    font-size: 28px;
+    color: var(--brick);
+    line-height: 1.05;
+  }
+
+  .tidy__label--right {
+    text-align: right;
+  }
+
+  @media (min-width: 1200px) {
+    .tidy__label {
+      font-size: calc(28 * var(--u));
+    }
+  }
+
+  @media (max-width: 1199.98px) {
+    .tidy .canvas {
+      gap: 24px;
+    }
+
+    .tidy__strip {
+      padding: 24px 22px;
+      text-align: left;
+    }
+
+    .tidy__lead {
+      margin-left: 0;
+    }
+
+    .tidy__objects {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 16px;
+    }
+
+    .tidy__object {
+      display: none;
+    }
+
+    .tidy__label {
+      font-size: 24px;
+      rotate: 0deg;
+    }
+
+    .tidy__label--right {
+      text-align: left;
+    }
+  }
+</style>
