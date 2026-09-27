@@ -1,0 +1,393 @@
+{
+  "meta": {
+    "title": "Dreamlee — le bureau d'écriture tout-en-un",
+    "description": "Dreamlee rassemble vos idées, vos personnages, vos cartes et votre manuscrit en un seul endroit, sur votre ordinateur. Rejoignez la bêta.",
+    "skipLink": "Aller au contenu"
+  },
+  "nav": {
+    "label": "Navigation principale",
+    "home": "Dreamlee, retour en haut de la page",
+    "links": [
+      { "label": "Le bureau", "href": "#rangement" },
+      { "label": "Écrire", "href": "#ecrire" },
+      { "label": "Votre univers", "href": "#univers" },
+      { "label": "Cartes", "href": "#cartes" },
+      { "label": "Questions", "href": "#questions" }
+    ],
+    "cta": "Rejoindre la bêta",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
+  },
+  "hero": {
+    "kicker": "Pour les auteurs de romans, de nouvelles et d'essais",
+    "title": "Votre roman est partout sur ce bureau.",
+    "lead": "Dreamlee rassemble vos idées, vos personnages, vos cartes et votre manuscrit en un seul endroit, pour que tout avance et que rien ne se perde.",
+    "cta": "Rejoindre la bêta",
+    "scrollHint": "ou faites défiler : on range tout",
+    "card": {
+      "name": "Maëlle",
+      "lines": [
+        "27 ans. Gardienne du phare d'Ysmer.",
+        "Ne dort jamais avant l'aube.",
+        "Cache une lettre de sa mère."
+      ],
+      "note": "sœur d'Aubin ?"
+    },
+    "postitYellow": "Chap. 3 : trop long ? couper la tempête",
+    "postitOrange": "et si le phare s'éteignait ?",
+    "mapNote": "Ysmer ?",
+    "pageNumber": "3",
+    "page": "Le vent tournait au nord quand Maëlle atteignit le quai. Au-delà des toits d'Ysmer, le phare découpait sa silhouette dans la brume. Pour la première fois",
+    "pageStruck": "depuis cent ans",
+    "pageCorrection": "depuis toujours",
+    "pageEnd": ", sa lumière s'était éteinte."
+  },
+  "tidy": {
+    "title": "Tout ce qui traîne a enfin sa place.",
+    "lead": "Vos idées, vos fiches, vos cartes et vos chapitres rejoignent un seul bureau, sur votre ordinateur.",
+    "screenshotAlt": "L'éditeur de Dreamlee : l'arborescence des chapitres à gauche, la scène au centre, les fiches liées à droite.",
+    "labels": {
+      "inbox": "boîte de réception",
+      "characters": "personnages",
+      "maps": "cartes",
+      "manuscript": "manuscrit"
+    }
+  },
+  "write": {
+    "title": "Rien entre vous et la phrase suivante.",
+    "lead": "Le mode concentration efface tout, sauf le paragraphe que vous écrivez. Le reste vous attend, intact.",
+    "points": [
+      "Enregistré à chaque mot, même hors ligne",
+      "Notes internes, jamais dans l'export",
+      "Un instantané avant chaque séance d'écriture",
+      "Titres, listes, citations : l'essentiel, sans plus"
+    ],
+    "chapterLabel": "Chapitre 3",
+    "chapterTitle": "La lanterne",
+    "before": [
+      "Le vent tournait au nord quand Maëlle atteignit le quai. Au-delà des toits d'Ysmer, le phare découpait sa silhouette dans la brume.",
+      "Elle avait promis à Aubin de ne pas monter. Elle monta quand même, une marche après l'autre, la lanterne serrée contre elle."
+    ],
+    "typed": "Au sommet, la vitre était froide. Elle leva la lanterne vers la mer. Rien. Puis, très loin, une lueur répondit.",
+    "status": "Scène 2",
+    "saved": "Enregistré",
+    "wordsSuffix": "mots",
+    "tryIt": "le texte s'écrit tout seul… essayez de taper !",
+    "editorLabel": "Démo : écrivez la suite de la scène"
+  },
+  "universe": {
+    "title": "Vos personnages ne vivent plus dans un tableur.",
+    "body": [
+      "Une fiche guidée pour chaque personnage, lieu, objet, organisation ou événement. Des liens nommés entre eux. Et, pour chaque fiche, les scènes où elle apparaît.",
+      "Le schéma de l'univers les regroupe par catégorie : tirez un fil d'une fiche à l'autre pour créer un lien."
+    ],
+    "dragHint": "faites glisser les fiches",
+    "screenshotAlt": "Le schéma de l'univers dans Dreamlee : les fiches regroupées par catégorie et reliées par leurs relations.",
+    "screenshotCaption": "dans l'app, le même tableau : déplaçable, filtrable, cliquable",
+    "entries": [
+      {
+        "id": "maelle",
+        "kind": "Personnage",
+        "category": "character",
+        "name": "Maëlle",
+        "text": "Gardienne du phare. Ne dort jamais avant l'aube."
+      },
+      {
+        "id": "aubin",
+        "kind": "Personnage",
+        "category": "character",
+        "name": "Aubin",
+        "text": "Son frère. Pêcheur, taiseux, loyal."
+      },
+      {
+        "id": "phare",
+        "kind": "Lieu",
+        "category": "place",
+        "name": "Le phare d'Ysmer",
+        "text": "Éteint depuis cent ans. Se rallume parfois."
+      },
+      {
+        "id": "lanterne",
+        "kind": "Objet",
+        "category": "object",
+        "name": "La lanterne",
+        "text": "Verre marqué de sel. Ne s'éteint pas."
+      },
+      {
+        "id": "guilde",
+        "kind": "Organisation",
+        "category": "group",
+        "name": "La Guilde des Veilleurs",
+        "text": "Gardiens des feux de la côte."
+      },
+      {
+        "id": "incendie",
+        "kind": "Événement",
+        "category": "event",
+        "name": "Le Grand Incendie",
+        "text": "Il y a cent ans, la nuit où tout a brûlé."
+      }
+    ],
+    "relations": [
+      { "from": "maelle", "to": "aubin", "label": "sœur de" },
+      { "from": "maelle", "to": "phare", "label": "garde" },
+      { "from": "maelle", "to": "lanterne", "label": "possède" },
+      { "from": "aubin", "to": "guilde", "label": "membre de" },
+      { "from": "lanterne", "to": "phare", "label": "a éteint" },
+      { "from": "lanterne", "to": "incendie", "label": "a survécu à" }
+    ]
+  },
+  "maps": {
+    "title": "Tracez le monde avant de vous y perdre.",
+    "lead": "Une graine, quelques réglages : un relief apparaît. Retouchez-le au pinceau, tracez rivières et routes, puis posez vos lieux et reliez-les à leurs fiches. Une région mérite plus de détail ? Ouvrez une carte dans la carte.",
+    "mapName": "Le Continent",
+    "mapAlt": "Carte générée : terres, relief et mer, à partir de la graine choisie.",
+    "detailTitle": "Détail : la baie d'Ysmer",
+    "tools": ["Relever", "Creuser", "Adoucir", "Forêts", "Rivière", "Route", "Lieu", "Nom"],
+    "toolsLabel": "Outils de la carte dans l'application",
+    "toolsNote": "peignez le relief, tracez, nommez : tout reste modifiable",
+    "generator": {
+      "title": "Générer le relief",
+      "seed": "Graine",
+      "randomSeed": "Nouvelle graine au hasard",
+      "seaLevel": "Part de mer",
+      "islands": "Nombre de terres",
+      "relief": "Relief",
+      "coast": "Découpe des côtes",
+      "submit": "Générer",
+      "generating": "Génération…"
+    },
+    "offline": "Calculé sur votre ordinateur. Sans IA.",
+    "linkedPlace": "Le phare d'Ysmer",
+    "linkedPlaceTag": "fiche liée"
+  },
+  "capture": {
+    "title": "Une idée surgit ? Trois touches, et elle est à l'abri.",
+    "lead": "Ctrl+Alt+N ouvre la capture rapide, où que vous soyez dans Dreamlee. Notez, validez : l'idée attend dans la boîte de réception. Plus tard, classez-la dans un projet, étiquetez-la ou transformez-la en scène.",
+    "shortcut": ["Ctrl", "Alt", "N"],
+    "padTitle": "Capture rapide",
+    "padLabel": "Idée",
+    "padPlaceholder": "Et si Aubin mentait depuis le début ?",
+    "destination": "Enregistrer dans",
+    "destinationValue": "Boîte de réception",
+    "hint": "Ctrl+Entrée pour enregistrer",
+    "submit": "Capturer",
+    "captured": "Idée capturée dans la boîte de réception.",
+    "empty": "Écrivez d'abord une idée.",
+    "flying": ["le phare s'éteint ?", "nom : Ysmer ou Ysmère ?", "réplique d'Aubin, ch. 7"],
+    "trayTitle": "Boîte de réception",
+    "trayCount": { "one": "{count} idée à classer", "other": "{count} idées à classer" },
+    "search": {
+      "label": "Recherche rapide",
+      "placeholder": "Un mot, un nom, une phrase…",
+      "initial": "maelle",
+      "results": "Résultats",
+      "none": "Aucun résultat",
+      "seeAll": "Voir tous les résultats pour « {query} »",
+      "shortcut": "Ctrl K",
+      "note": "tapez « maelle », il trouve Maëlle : les accents ne comptent pas",
+      "index": [
+        { "text": "Maëlle", "kind": "Fiche" },
+        { "text": "Aubin", "kind": "Fiche" },
+        { "text": "Le phare d'Ysmer", "kind": "Fiche" },
+        { "text": "… Maëlle leva la lanterne vers la mer …", "kind": "Scène" },
+        { "text": "Maëlle doit-elle mentir à Aubin ?", "kind": "Note" },
+        { "text": "Chap. 5 : Maëlle seule", "kind": "Chapitre" },
+        { "text": "Chap. 3 : La lanterne", "kind": "Chapitre" },
+        { "text": "La Guilde des Veilleurs", "kind": "Fiche" },
+        { "text": "Élever la tension avant l'incendie", "kind": "Note" },
+        { "text": "Les Cendres d'Aube", "kind": "Projet" }
+      ]
+    }
+  },
+  "progress": {
+    "title": "Un rythme, pas une pression.",
+    "lead": "Lancez une session d'écriture de 25 minutes, ou sans limite, avec ou sans objectif de mots. Dreamlee compte pour vous, jour après jour. Les objectifs sont tous facultatifs : ils vous encouragent, ils ne vous jugent pas.",
+    "timer": { "label": "Session en cours", "remaining": "restantes", "words": "412 / 600 mots" },
+    "timerNote": "25 min, 45 min, ou libre",
+    "chart": {
+      "title": "Mots écrits par jour",
+      "period": "30 derniers jours",
+      "example": "Exemple",
+      "stats": [
+        { "label": "Aujourd'hui", "value": "612 mots" },
+        { "label": "7 derniers jours", "value": "3 204 mots" },
+        { "label": "Jours d'écriture", "value": "18 sur 30" }
+      ],
+      "goal": 500,
+      "goalLabel": "objectif\n500 mots",
+      "today": "aujourd'hui",
+      "footnote": "Pour vous encourager, pas pour vous juger.",
+      "days": [
+        320, 540, 0, 610, 480, 0, 0, 720, 505, 390, 0, 860, 520, 610, 0, 0, 450, 530, 0, 300, 680,
+        0, 560, 810, 0, 420, 0, 590, 640, 612
+      ],
+      "summary": "Exemple de mots écrits par jour sur 30 jours : objectif de 500 mots atteint 14 jours."
+    },
+    "session": {
+      "title": "Session terminée",
+      "duration": "Durée",
+      "durationValue": "45 min",
+      "words": "Mots écrits",
+      "wordsValue": "+812",
+      "goal": "Objectif atteint, bravo !",
+      "thanks": "Merci pour ce moment d'écriture."
+    },
+    "sessionNote": "même 50 mots comptent"
+  },
+  "versions": {
+    "title": "Réécrivez sans crainte.",
+    "lead": "Avant chaque séance d'écriture, Dreamlee garde une copie de la scène. Nommez une version avant une grosse réécriture, relisez, restaurez : le texte actuel est conservé lui aussi. Pour un tournant radical, dupliquez tout le projet.",
+    "scrubberLabel": "Version affichée",
+    "scrubberNote": "faites glisser pour remonter le temps",
+    "restore": "Restaurer cette version",
+    "wordsSuffix": "mots",
+    "items": [
+      {
+        "date": "12 sept.",
+        "kind": "Sauvegarde automatique",
+        "text": "Le vent tournait quand Maëlle arriva au quai. Le phare était éteint."
+      },
+      {
+        "date": "18 sept.",
+        "kind": "Sauvegarde automatique",
+        "text": "Le vent tournait au nord quand Maëlle atteignit le quai. Le phare, là-haut, restait noir depuis cent ans."
+      },
+      {
+        "date": "Hier",
+        "kind": "Version nommée",
+        "name": "Avant réécriture",
+        "text": "Le vent tournait au nord quand Maëlle atteignit le quai. Au-delà des toits d'Ysmer, le phare découpait sa silhouette dans la brume. Pour la première fois depuis cent ans, sa lumière s'était éteinte."
+      },
+      {
+        "date": "Aujourd'hui, 14:02",
+        "kind": "Sauvegarde automatique",
+        "text": "Le vent tournait au nord quand Maëlle atteignit le quai. Au-delà des toits d'Ysmer, le phare découpait sa silhouette dans la brume. Pour la première fois depuis toujours, sa lumière s'était éteinte, et quelqu'un, là-haut, venait de rallumer une lanterne."
+      }
+    ]
+  },
+  "export": {
+    "title": "Votre manuscrit, prêt à partir.",
+    "lead": "PDF mis en page pour relire, Word pour l'envoyer à un éditeur, Markdown ou texte brut pour tout le reste. Choisissez les chapitres, les titres, vos notes internes ou non. Votre manuscrit, lui, n'est jamais modifié.",
+    "bookTitle": "La Lanterne d'Ysmer",
+    "bookGenre": "roman",
+    "bookAuthor": "Camille Arnaud",
+    "bookStats": "24 chapitres, 84 312 mots",
+    "formatsLabel": "Formats d'export",
+    "formats": [
+      {
+        "id": "pdf",
+        "label": "PDF",
+        "hint": "Une copie de lecture mise en page, identique partout."
+      },
+      { "id": "docx", "label": "Word", "hint": "Pour relire, annoter ou envoyer à un éditeur." },
+      {
+        "id": "markdown",
+        "label": "Markdown",
+        "hint": "Texte structuré pour les outils d'écriture et le web."
+      },
+      { "id": "txt", "label": "Texte brut", "hint": "Le texte seul, lisible partout." }
+    ],
+    "note": "un format, un clic"
+  },
+  "colophon": {
+    "label": "Colophon",
+    "title": "Ce que Dreamlee vous promet",
+    "items": [
+      {
+        "lead": "Vos textes restent chez vous.",
+        "text": "Ils sont enregistrés sur votre ordinateur. Un compte est facultatif."
+      },
+      {
+        "lead": "Hors ligne, rien ne change.",
+        "text": "Dans le train ou au fond des bois, Dreamlee fonctionne sans connexion."
+      },
+      {
+        "lead": "Chaque mot est gardé.",
+        "text": "Enregistrement automatique, et une copie de la scène avant chaque séance."
+      },
+      {
+        "lead": "Vous repartez quand vous voulez.",
+        "text": "PDF, Word, Markdown ou texte brut : votre livre n'est jamais prisonnier."
+      },
+      {
+        "lead": "Aucune IA n'écrit à votre place.",
+        "text": "Le générateur de cartes calcule des reliefs, jamais vos phrases."
+      },
+      {
+        "lead": "Réglé pour vos yeux.",
+        "text": "Thème clair ou sombre, police, taille, interligne et largeur de lecture."
+      }
+    ],
+    "signature": "Achevé d'imprimer sur votre bureau."
+  },
+  "faq": {
+    "title": "Vos questions, rangées par fiches.",
+    "boxLabel": "Questions",
+    "note": "cliquez sur une fiche pour la sortir du fichier",
+    "items": [
+      {
+        "question": "Faut-il créer un compte ?",
+        "answer": "Non. Choisissez « Continuer sans compte » : vos projets restent uniquement sur votre ordinateur. Vous pourrez créer un compte plus tard."
+      },
+      {
+        "question": "Où sont enregistrés mes textes ?",
+        "answer": "Sur votre ordinateur, à chaque mot, même sans connexion. Avant chaque séance, une copie de la scène est gardée dans l'historique."
+      },
+      {
+        "question": "Puis-je récupérer mon manuscrit ?",
+        "answer": "À tout moment : PDF, Word, Markdown ou texte brut. Choisissez les chapitres et les options, l'original n'est jamais modifié."
+      },
+      {
+        "question": "Dreamlee écrit-il à ma place ?",
+        "answer": "Non. Aucune IA ne touche à vos phrases."
+      },
+      {
+        "question": "Sur quels appareils ?",
+        "answer": "Dreamlee est une application pour ordinateur. Il n'y a pas encore d'application mobile ni de synchronisation entre appareils."
+      },
+      {
+        "question": "Combien coûte Dreamlee ?",
+        "answer": "Les inscrits à la bêta seront les premiers informés des conditions d'accès."
+      },
+      {
+        "question": "À quoi sert mon adresse e-mail ?",
+        "answer": "À vous prévenir de l'ouverture de la bêta, et c'est tout. Un lien de désinscription accompagne chaque message."
+      }
+    ]
+  },
+  "beta": {
+    "kicker": "Bêta privée",
+    "title": "Il ne manque plus que votre livre.",
+    "lead": "Inscrivez-vous : nous vous écrirons dès que Dreamlee ouvre ses portes.",
+    "emailLabel": "Adresse e-mail",
+    "emailPlaceholder": "vous@exemple.fr",
+    "submit": "Rejoindre la bêta",
+    "sending": "Inscription…",
+    "privacy": "Un e-mail à l'ouverture de la bêta, rien d'autre. Désinscription en un clic.",
+    "signature": "à vous d'écrire",
+    "states": {
+      "empty": "Indiquez votre adresse e-mail.",
+      "invalid": "Cette adresse e-mail ne semble pas valide. Vérifiez-la, par exemple : vous@exemple.fr",
+      "error": "L'inscription n'a pas abouti. Votre adresse est conservée : réessayez dans un instant.",
+      "success": "C'est noté ! Nous vous écrirons à {email} dès l'ouverture de la bêta.",
+      "already": "Vous êtes déjà inscrit avec {email}. À très bientôt.",
+      "notConfigured": "Les inscriptions ouvrent très bientôt. Revenez nous voir dans quelques jours."
+    }
+  },
+  "footer": {
+    "tagline": "Le bureau d'écriture tout-en-un.",
+    "linksLabel": "Plan du site",
+    "links": [
+      { "label": "Le bureau", "href": "#rangement" },
+      { "label": "Écrire", "href": "#ecrire" },
+      { "label": "Votre univers", "href": "#univers" },
+      { "label": "Cartes", "href": "#cartes" },
+      { "label": "Questions", "href": "#questions" },
+      { "label": "Confidentialité", "href": "#confidentialite" }
+    ],
+    "privacyTitle": "Confidentialité",
+    "privacy": "Ce site ne dépose aucun cookie et ne mesure pas votre visite. Votre adresse e-mail sert uniquement à vous prévenir de l'ouverture de la bêta.",
+    "copyright": "© {year} Dreamlee"
+  }
+}
