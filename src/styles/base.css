@@ -77,6 +77,10 @@ p {
   text-wrap: pretty;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .visually-hidden {
   position: absolute !important;
   width: 1px;
